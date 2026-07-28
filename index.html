@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="A long-form bilingual (EN / FA) research article on why mathematics is the foundation of everything — especially computer science and artificial intelligence." />
+<title>Mathematics: The Foundation of Everything · EN / FA</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/inter@latest/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/vazirmatn@latest/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/jetbrains-mono@latest/index.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/css/stix-two-text@latest/index.css" />
+
+<style>
+/* ============================================================
+   THEME TOKENS  —  GitHub-flavoured dark by default, gold accent
+   ============================================================ */
+:root{
+  --font-body:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-fa:'Vazirmatn','Inter',ui-sans-serif,system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --font-math:'STIX Two Text','Times New Roman',Georgia,serif;
+
+  --maxw:1240px; --read:800px; --tocw:262px; --head-h:62px;
+  --radius:12px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+html[data-theme="dark"]{
+  --bg:#0d1117; --bg-2:#0b0f14; --panel:#161b22; --panel-2:#1c2230;
+  --border:#21262d; --border-2:#30363d;
+  --text:#e6edf3; --prose:#c4ccd6; --soft:#9aa6b2; --faint:#6e7681;
+  --accent:#e3b341; --accent-ink:#1a1304; --accent-2:#58a6ff; --green:#3fb950; --red:#f85149;
+  --code-bg:#0b0f14; --code-head:#11161d;
+  --grid:rgba(148,163,184,.045);
+  --k:#ff7b72; --s:#a5d6ff; --c:#8b949e; --n:#79c0ff; --f:#d2a8ff; --o:#c9d1d9; --t:#79c0ff;
+  --shadow:0 18px 50px -28px rgba(0,0,0,.9);
+}
+html[data-theme="light"]{
+  --bg:#ffffff; --bg-2:#f6f8fa; --panel:#f6f8fa; --panel-2:#eef1f5;
+  --border:#d8dee4; --border-2:#d0d7de;
+  --text:#1f2328; --prose:#3b424b; --soft:#57606a; --faint:#8c959f;
+  --accent:#9a6700; --accent-ink:#fff8e6; --accent-2:#0969da; --green:#1a7f37; --red:#cf222e;
+  --code-bg:#f6f8fa; --code-head:#eef1f5;
+  --grid:rgba(31,35,40,.05);
+  --k:#cf222e; --s:#0a3069; --c:#6e7781; --n:#0550ae; --f:#8250df; --o:#24292f; --t:#0550ae;
+  --shadow:0 18px 50px -30px rgba(31,35,40,.35);
+}
+
+/* ============================================================
+   RESET / BASE
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:var(--font-body);font-size:17px;line-height:1.85;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  transition:background .4s var(--ease),color .4s var(--ease);
+  overflow-x:hidden;
+}
+body.lang-fa{font-family:var(--font-fa)}
+img{max-width:100%;display:block}
+a{color:var(--accent-2);text-decoration:none}
+::selection{background:color-mix(in srgb,var(--accent) 38%,transparent);color:var(--text)}
+
+/* Ambient grid + drifting glyphs canvas */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 0%,#000 35%,transparent 92%);
+          mask-image:radial-gradient(120% 90% at 50% 0%,#000 35%,transparent 92%);
+}
+#bgfx{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 0 14px color-mix(in srgb,var(--accent) 55%,transparent);
+  transition:width .08s linear}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-head{
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:saturate(140%) blur(14px);
+  -webkit-backdrop-filter:saturate(140%) blur(14px);
+  background:color-mix(in srgb,var(--bg) 78%,transparent);
+  border-bottom:1px solid var(--border);
+}
+.head-in{max-width:var(--maxw);margin:0 auto;height:var(--head-h);
+  display:flex;align-items:center;gap:1rem;padding:0 clamp(1rem,4vw,2rem)}
+.brand{display:flex;align-items:center;gap:.7rem;min-width:0}
+.brand-mark{flex:0 0 auto;width:38px;height:38px;display:grid;place-items:center;
+  border-radius:10px;font-family:var(--font-math);font-weight:700;font-size:1.35rem;
+  color:var(--accent-ink);background:linear-gradient(140deg,var(--accent),#b98a1f);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 6px 18px -8px var(--accent)}
+.brand-txt{display:flex;flex-direction:column;line-height:1.05;min-width:0}
+.brand-txt b{font-size:.92rem;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.brand-txt span{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint)}
+.brand-txt .t-fa{display:none}
+body.lang-fa .brand-txt .t-en{display:none}
+body.lang-fa .brand-txt .t-fa{display:block}
+
+.spacer{flex:1}
+.head-tools{display:flex;align-items:center;gap:.6rem}
+.seg{display:flex;border:1px solid var(--border-2);border-radius:9px;overflow:hidden;background:var(--panel)}
+.seg button{appearance:none;border:0;background:transparent;cursor:pointer;
+  font-family:var(--font-mono);font-weight:600;font-size:.72rem;letter-spacing:.12em;
+  color:var(--soft);padding:.46rem .8rem;transition:color .25s,background .25s}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.seg button:not(.on):hover{color:var(--text)}
+.icon-btn{width:40px;height:40px;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--border-2);border-radius:10px;background:var(--panel);
+  font-size:1.05rem;line-height:1;transition:transform .35s var(--ease),border-color .25s,background .25s}
+.icon-btn:hover{border-color:var(--accent);transform:rotate(18deg) scale(1.04)}
+
+/* ============================================================
+   EQUATION MARQUEE  —  the universal opening line
+   ============================================================ */
+.eq-band{position:relative;z-index:1;border-block:1px solid var(--border);
+  background:linear-gradient(180deg,var(--panel),color-mix(in srgb,var(--panel) 60%,var(--bg)));
+  overflow:hidden;white-space:nowrap}
+.eq-track{display:inline-flex;align-items:center;gap:2.6rem;padding:.7rem 1.3rem;
+  width:max-content;animation:scroll 60s linear infinite}
+.eq-band:hover .eq-track{animation-play-state:paused}
+body.lang-fa .eq-track{animation-direction:reverse}
+.eq-track .eq{font-family:var(--font-math);font-size:1.02rem;color:var(--soft)}
+.eq-track .eq i{color:var(--accent-2)}
+.eq-track .dot{color:var(--accent);font-size:.7rem;transform:translateY(-1px)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================================================
+   LAYOUT  (TOC + reading column)
+   ============================================================ */
+.layout{position:relative;z-index:1;max-width:var(--maxw);margin:0 auto;
+  display:grid;grid-template-columns:var(--tocw) minmax(0,1fr);
+  gap:clamp(1.5rem,4vw,3.4rem);padding:2.4rem clamp(1rem,4vw,2rem) 4rem}
+main{width:100%;max-width:var(--read);margin-inline:auto}
+
+/* TOC */
+.toc-side{position:relative}
+.toc{position:sticky;top:calc(var(--head-h) + 22px);max-height:calc(100vh - var(--head-h) - 48px);
+  overflow:auto;display:none;padding-inline-start:1.1rem;
+  border-inline-start:1px solid var(--border)}
+.toc.active{display:block}
+.toc::-webkit-scrollbar{width:6px}
+.toc::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:6px}
+.toc-title{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--faint);margin:0 0 .9rem}
+.toc ul{list-style:none;margin:0;padding:0}
+.toc li{margin:0}
+.toc a{display:block;font-size:.82rem;line-height:1.45;color:var(--soft);
+  padding:.32rem 0 .32rem .85rem;margin-inline-start:-.85rem;
+  border-inline-start:2px solid transparent;
+  transition:color .2s,transform .2s var(--ease),border-color .2s}
+.toc a:hover{color:var(--text);transform:translateX(2px)}
+[dir="rtl"] .toc a:hover{transform:translateX(-2px)}
+.toc a.current{color:var(--accent);border-inline-start-color:var(--accent);font-weight:600}
+.toc a.sub{padding-inline-start:1.5rem;font-size:.78rem;color:var(--faint)}
+.toc a.sub.current{color:var(--accent)}
+
+/* ============================================================
+   ARTICLE TYPOGRAPHY
+   ============================================================ */
+.lang-content{display:none}
+.lang-content.active{display:block;animation:fade .5s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.kicker{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--accent);margin:0 0 1.1rem;
+  display:flex;align-items:center;gap:.7rem}
+.kicker::before{content:"";width:34px;height:2px;background:var(--accent)}
+
+h1.title{font-size:clamp(2.1rem,5.4vw,3.5rem);line-height:1.06;font-weight:800;
+  letter-spacing:-.025em;margin:0 0 1.4rem}
+h1.title .hl{position:relative;color:var(--accent);white-space:nowrap}
+h1.title .hl::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.18em;
+  background:color-mix(in srgb,var(--accent) 30%,transparent);z-index:-1;border-radius:2px}
+.lead{font-size:1.18rem;line-height:1.78;color:var(--prose);margin:0 0 1.6rem}
+.lead strong{color:var(--text);font-weight:600}
+
+.meta{display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;align-items:center;
+  font-family:var(--font-mono);font-size:.74rem;color:var(--faint);
+  padding:1rem 0;border-block:1px solid var(--border);margin-bottom:2rem}
+.meta .mi{display:inline-flex;align-items:center;gap:.4rem}
+.meta .mi b{color:var(--soft);font-weight:600}
+.meta .sep{color:var(--border-2)}
+
+h2.sec-h{display:flex;align-items:center;gap:.85rem;font-size:clamp(1.45rem,3.2vw,1.95rem);
+  font-weight:800;letter-spacing:-.02em;margin:3.4rem 0 1.2rem}
+h2.sec-h .num{flex:0 0 auto;font-family:var(--font-mono);font-size:.82rem;font-weight:600;
+  color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 50%,transparent);
+  border-radius:8px;padding:.3rem .55rem;line-height:1}
+h2.sec-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--border-2),transparent)}
+h3.sub-h{font-size:1.28rem;font-weight:700;letter-spacing:-.01em;margin:2.3rem 0 .8rem;
+  color:var(--text);display:flex;align-items:baseline;gap:.6rem}
+h3.sub-h .tick{color:var(--accent-2);font-family:var(--font-mono);font-size:.95rem}
+h4{font-size:1.02rem;font-weight:700;margin:1.6rem 0 .5rem;color:var(--text)}
+
+p{margin:0 0 1.15rem;color:var(--prose)}
+p strong{color:var(--text);font-weight:650}
+p em{color:var(--text)}
+ul,ol{margin:0 0 1.3rem;padding-inline-start:1.4rem;color:var(--prose)}
+li{margin:.4rem 0}
+li::marker{color:var(--accent)}
+ol li::marker{font-family:var(--font-mono);font-weight:600}
+[dir="rtl"]{line-height:2.05}
+
+/* inline math + display math */
+.m{font-family:var(--font-math);font-style:italic;color:var(--text)}
+.m i{font-style:italic}
+.math-block{display:flex;justify-content:center;margin:1.8rem 0;padding:1.5rem 1rem;
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  position:relative;overflow-x:auto}
+.math-block::before{content:"";position:absolute;top:0;bottom:0;inset-inline-start:0;width:3px;
+  background:var(--accent)}
+.math-block .eq{font-family:var(--font-math);font-size:1.5rem;color:var(--text);letter-spacing:.01em}
+.math-block .eq i{color:var(--accent-2)}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;
+  margin:0 .25em;line-height:1.15}
+.frac .top{padding:0 .45em;border-bottom:1.5px solid currentColor}
+.frac .bot{padding:0 .45em}
+sub,sup{font-size:.68em}
+
+/* pull quote */
+.pull{position:relative;margin:2.2rem 0;padding:1.4rem 1.6rem 1.4rem 2.4rem;
+  border-inline-start:3px solid var(--accent);background:var(--panel);border-radius:0 var(--radius) var(--radius) 0;
+  box-shadow:var(--shadow)}
+[dir="rtl"] .pull{border-radius:var(--radius) 0 0 var(--radius);padding:1.4rem 2.4rem 1.4rem 1.6rem}
+.pull::before{content:"“";position:absolute;top:-.1em;inset-inline-start:.5rem;
+  font-family:var(--font-math);font-size:3.4rem;color:var(--accent);line-height:1;opacity:.55}
+[dir="rtl"] .pull::before{content:"”"}
+.pull p{font-family:var(--font-math);font-style:italic;font-size:1.28rem;line-height:1.55;
+  color:var(--text);margin:0 0 .6rem}
+.pull cite{font-family:var(--font-mono);font-style:normal;font-size:.74rem;
+  letter-spacing:.08em;color:var(--faint)}
+
+/* GitHub-style alert callouts */
+.alert{margin:1.6rem 0;padding:1rem 1.1rem;border:1px solid var(--border);
+  border-inline-start-width:4px;border-radius:var(--radius);background:var(--panel)}
+.alert.note{border-inline-start-color:var(--accent-2)}
+.alert.tip{border-inline-start-color:var(--green)}
+.alert.important{border-inline-start-color:var(--accent)}
+.alert.warn{border-inline-start-color:var(--red)}
+.alert-t{display:flex;align-items:center;gap:.5rem;margin:0 0 .4rem;
+  font-family:var(--font-mono);font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.alert.note .alert-t{color:var(--accent-2)}
+.alert.tip .alert-t{color:var(--green)}
+.alert.important .alert-t{color:var(--accent)}
+.alert.warn .alert-t{color:var(--red)}
+.alert p:last-child{margin-bottom:0}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:1.6rem 0;border:1px solid var(--border);border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+thead th{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--faint);text-align:start;padding:.8rem 1rem;background:var(--panel-2);
+  border-bottom:1px solid var(--border-2)}
+tbody td{padding:.7rem 1rem;border-bottom:1px solid var(--border);color:var(--prose);vertical-align:top}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:color-mix(in srgb,var(--accent) 6%,transparent)}
+td .m,th .m{font-style:italic}
+td code{font-family:var(--font-mono);font-size:.85em;color:var(--accent-2)}
+
+/* figures */
+figure.fig{margin:2rem 0;border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;background:var(--panel);box-shadow:var(--shadow)}
+figure.fig img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--bg-2)}
+figure.fig figcaption{padding:.8rem 1.1rem;font-size:.82rem;color:var(--soft);
+  display:flex;gap:.7rem;align-items:baseline;border-top:1px solid var(--border)}
+figure.fig .fn{flex:0 0 auto;font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);
+  border-radius:6px;padding:.18rem .45rem}
+
+/* code blocks */
+.code{margin:1.7rem 0;border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;background:var(--code-bg);box-shadow:var(--shadow)}
+.code-head{display:flex;align-items:center;justify-content:space-between;
+  padding:.5rem .8rem .5rem 1rem;background:var(--code-head);border-bottom:1px solid var(--border)}
+.code-head .lang{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:.5rem}
+.code-head .lang::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 22%,transparent)}
+.copy{appearance:none;border:1px solid var(--border-2);background:transparent;color:var(--soft);
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;cursor:pointer;
+  padding:.3rem .6rem;border-radius:7px;transition:.2s}
+.copy:hover{color:var(--text);border-color:var(--accent)}
+.copy.done{color:var(--green);border-color:var(--green)}
+pre{margin:0;padding:1.1rem 1.2rem;overflow-x:auto;direction:ltr;text-align:left;
+  font-family:var(--font-mono);font-size:.86rem;line-height:1.72;color:var(--o);tab-size:2}
+pre code{font-family:inherit}
+.k{color:var(--k)} .s{color:var(--s)} .c{color:var(--c);font-style:italic}
+.n{color:var(--n)} .f{color:var(--f)} .o{color:var(--o)} .t{color:var(--t)}
+
+/* references */
+.refs{list-style:none;counter-reset:ref;padding:0;margin:1.4rem 0 0}
+.refs li{counter-increment:ref;position:relative;padding:.9rem 1rem .9rem 3.2rem;
+  border:1px solid var(--border);border-radius:var(--radius);margin-bottom:.7rem;
+  background:var(--panel);transition:transform .25s var(--ease),border-color .25s}
+[dir="rtl"] .refs li{padding:.9rem 3.2rem .9rem 1rem}
+.refs li:hover{transform:translateX(3px);border-color:var(--border-2)}
+[dir="rtl"] .refs li:hover{transform:translateX(-3px)}
+.refs li::before{content:counter(ref,decimal-leading-zero);position:absolute;inset-inline-start:1rem;top:1rem;
+  font-family:var(--font-mono);font-size:.78rem;color:var(--accent);font-weight:600}
+.refs .rt{font-weight:700;color:var(--text);display:block;margin-bottom:.2rem}
+.refs .rn{font-size:.9rem;color:var(--prose)}
+.refs .rm{font-family:var(--font-mono);font-size:.72rem;color:var(--faint);margin-top:.35rem;display:block}
+.refs a{color:var(--accent-2);border-bottom:1px dashed color-mix(in srgb,var(--accent-2) 50%,transparent)}
+
+/* article footer */
+.art-foot{margin-top:3.5rem;padding-top:1.6rem;border-top:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;
+  font-family:var(--font-mono);font-size:.74rem;color:var(--faint)}
+.art-foot .tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.art-foot .tags span{border:1px solid var(--border);border-radius:999px;padding:.25rem .65rem;color:var(--soft)}
+
+/* site footer */
+.site-foot{position:relative;z-index:1;border-top:1px solid var(--border);
+  background:var(--bg-2);padding:2rem clamp(1rem,4vw,2rem)}
+.site-foot .in{max-width:var(--maxw);margin:0 auto;display:flex;flex-wrap:wrap;gap:1rem;
+  justify-content:space-between;align-items:center;font-family:var(--font-mono);
+  font-size:.74rem;color:var(--faint)}
+.site-foot .in .t-fa{display:none}
+body.lang-fa .site-foot .in .t-en{display:none}
+body.lang-fa .site-foot .in .t-fa{display:inline}
+
+/* back to top */
+#toTop{position:fixed;bottom:1.6rem;inset-inline-end:1.6rem;z-index:90;width:48px;height:48px;
+  border-radius:50%;border:1px solid var(--border-2);background:var(--panel);color:var(--accent);
+  font-size:1.2rem;cursor:pointer;display:grid;place-items:center;
+  box-shadow:var(--shadow);opacity:0;transform:translateY(14px) scale(.9);pointer-events:none;
+  transition:opacity .3s,transform .3s var(--ease),border-color .25s}
+#toTop.show{opacity:1;transform:none;pointer-events:auto}
+#toTop:hover{border-color:var(--accent);transform:translateY(-3px)}
+
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1024px){
+  .layout{grid-template-columns:1fr}
+  .toc-side{display:none}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .brand-txt span{display:none}
+  .head-in{gap:.6rem}
+  .seg button{padding:.42rem .6rem}
+  .math-block .eq{font-size:1.2rem}
+  h1.title .hl{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+
+<body class="lang-en">
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ============================ HEADER ============================ -->
+<header class="site-head">
+  <div class="head-in">
+    <a class="brand" href="#top" aria-label="Top">
+      <span class="brand-mark" aria-hidden="true">∑</span>
+      <span class="brand-txt">
+        <b class="t-en">Mathematics</b>
+        <b class="t-fa">ریاضیات</b>
+        <span class="t-en">The Foundation of Everything</span>
+        <span class="t-fa">زیربنای همه‌چیز</span>
+      </span>
+    </a>
+    <span class="spacer"></span>
+    <div class="head-tools">
+      <div class="seg" role="group" aria-label="Language">
+        <button id="btn-en" class="on" aria-pressed="true">EN</button>
+        <button id="btn-fa" aria-pressed="false">FA</button>
+      </div>
+      <button id="theme" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">☀️</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ EQUATION BAND ============================ -->
+<div class="eq-band" aria-hidden="true">
+  <div class="eq-track" id="eqtrack"></div>
+</div>
+
+<span id="top"></span>
+
+<!-- ============================ LAYOUT ============================ -->
+<div class="layout">
+
+  <!-- ---------- TABLE OF CONTENTS ---------- -->
+  <aside class="toc-side">
+    <nav id="toc-en" class="toc active" aria-label="Table of contents">
+      <p class="toc-title">On this page</p>
+      <ul>
+        <li><a href="#en-abstract">Abstract</a></li>
+        <li><a href="#en-philosophy"><span>01</span> · Philosophy of Mathematics</a></li>
+        <li><a href="#en-cs"><span>02</span> · Math in Computer Science</a></li>
+        <li><a class="sub" href="#en-discrete">2.1 Discrete Math &amp; Logic</a></li>
+        <li><a class="sub" href="#en-graph">2.2 Graph Theory &amp; Networks</a></li>
+        <li><a class="sub" href="#en-crypto">2.3 Cryptography &amp; Security</a></li>
+        <li><a class="sub" href="#en-complexity">2.4 Algorithmic Complexity</a></li>
+        <li><a href="#en-ai"><span>03</span> · Math in Artificial Intelligence</a></li>
+        <li><a class="sub" href="#en-linalg">3.1 Linear Algebra</a></li>
+        <li><a class="sub" href="#en-calculus">3.2 Calculus &amp; Backpropagation</a></li>
+        <li><a class="sub" href="#en-prob">3.3 Probability &amp; Statistics</a></li>
+        <li><a href="#en-future"><span>04</span> · The Future: Quantum &amp; AGI</a></li>
+        <li><a href="#en-conclusion">Conclusion</a></li>
+        <li><a href="#en-refs">References</a></li>
+      </ul>
+    </nav>
+
+    <nav id="toc-fa" class="toc" aria-label="فهرست مطالب">
+      <p class="toc-title">در این صفحه</p>
+      <ul>
+        <li><a href="#fa-abstract">چکیده</a></li>
+        <li><a href="#fa-philosophy"><span>۰۱</span> · فلسفهٔ ریاضیات</a></li>
+        <li><a href="#fa-cs"><span>۰۲</span> · ریاضیات در علوم کامپیوتر</a></li>
+        <li><a class="sub" href="#fa-discrete">۲٫۱ ریاضیات گسسته و منطق</a></li>
+        <li><a class="sub" href="#fa-graph">۲٫۲ نظریهٔ گراف و شبکه‌ها</a></li>
+        <li><a class="sub" href="#fa-crypto">۲٫۳ رمزنگاری و امنیت سایبری</a></li>
+        <li><a class="sub" href="#fa-complexity">۲٫۴ پیچیدگی الگوریتم‌ها</a></li>
+        <li><a href="#fa-ai"><span>۰۳</span> · ریاضیات در هوش مصنوعی</a></li>
+        <li><a class="sub" href="#fa-linalg">۳٫۱ جبر خطی</a></li>
+        <li><a class="sub" href="#fa-calculus">۳٫۲ حسابان و انتشار معکوس</a></li>
+        <li><a class="sub" href="#fa-prob">۳٫۳ احتمال و آمار</a></li>
+        <li><a href="#fa-future"><span>۰۴</span> · آینده: کوانتوم و AGI</a></li>
+        <li><a href="#fa-conclusion">نتیجه‌گیری</a></li>
+        <li><a href="#fa-refs">منابع</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- ============================================================
+       ENGLISH ARTICLE
+       ============================================================ -->
+  <main>
+  <article id="content-en" class="lang-content active" dir="ltr">
+
+    <!-- ABSTRACT / HERO -->
+    <section id="en-abstract">
+      <p class="kicker">Research Article · July 2026 · Foundations of Computing</p>
+      <h1 class="title">Why Mathematics Is the <span class="hl">Foundation of Everything</span></h1>
+      <p class="lead">
+        Before the first transistor ever switched, before the first line of code was written,
+        before the first brain ever formed a thought — there was <strong>pattern, structure, and number</strong>.
+        The orbit of every planet, the spiral of every galaxy, the rhythm of every heartbeat, and the
+        weights inside every neural network all obey the same silent grammar: mathematics. This is a
+        long-form investigation into why mathematics is not merely a tool that engineers reach for, but
+        the very substrate on which computation, information, and intelligence themselves are built.
+        We travel from the philosophy of pure reason, through discrete mathematics, graph theory,
+        cryptography and complexity theory, into the linear algebra, calculus and probability that power
+        modern AI — and onward to the quantum and AGI frontier. Every claim below is tied to a theorem,
+        a proof sketch, or a runnable piece of code.
+      </p>
+
+      <div class="meta">
+        <span class="mi">⏱ <b><span id="rt-en">25</span> min read</b></span>
+        <span class="sep">•</span>
+        <span class="mi">§ <b>13 sections</b></span>
+        <span class="sep">•</span>
+        <span class="mi">🌐 <b>EN / FA</b></span>
+        <span class="sep">•</span>
+        <span class="mi">✍ <b>Qwen Research Lab</b></span>
+      </div>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/109148562-3773-4251-a320-9ee520e03a3e.png"
+             alt="Abstract golden-ratio spiral surrounded by polyhedra, fractals and a node network on a dark field." loading="lazy" />
+        <figcaption><span class="fn">Fig. 0</span> Structure, not substance — the same mathematics that draws a nautilus shell also draws a galaxy and a gradient.</figcaption>
+      </figure>
+
+      <blockquote class="pull reveal">
+        <p>Philosophy is written in this grand book — I mean the universe — which stands continually open to our gaze, but it cannot be understood unless one first learns to comprehend the language in which it is written. It is written in the language of mathematics.</p>
+        <cite>— Galileo Galilei, <em>Il Saggiatore</em> (1623)</cite>
+      </blockquote>
+    </section>
+
+    <!-- 01 PHILOSOPHY -->
+    <section id="en-philosophy">
+      <h2 class="sec-h reveal"><span class="num">01</span> The Philosophy of Mathematics</h2>
+
+      <p class="reveal">In 1960 the physicist Eugene Wigner published a short essay titled
+        <em>“The Unreasonable Effectiveness of Mathematics in the Natural Sciences”</em>, and in it he
+        confessed to a quiet astonishment: equations scribbled on paper by pure mathematicians — with no
+        application in mind, sometimes for sheer aesthetic pleasure — keep resurfacing decades later as the
+        exact laws of physics. Bernhard Riemann invented the geometry of curved spaces in the 1850s as an
+        intellectual exercise; sixty years later it became the stage on which Einstein wrote general
+        relativity. Group theory was born from a teenager's attempt to decide which polynomial equations can
+        be solved by radicals; it became the language of every fundamental particle we know. Wigner called
+        this correspondence a “miracle” — a gift “which we neither understand nor deserve.”</p>
+
+      <p class="reveal">Philosophers still argue about what mathematics <em>is</em>. Platonists hold that
+        mathematical objects live in an ideal realm and that we <em>discover</em> them, the way astronomers
+        discover stars. Formalists, following Hilbert, see mathematics as a game played with symbols under
+        precise rules — meaning is whatever the rules permit. Intuitionists, with Brouwer, insist that a
+        mathematical object exists only once a mind has constructed it. Three radically different
+        metaphysics — yet all three agree on the theorems, and all three are stunned by how well those
+        theorems predict the physical world. The disagreement is about the <em>ontology</em> of mathematics;
+        the agreement is about its <em>power</em>.</p>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/1a68b6084-9292-4b5e-9c3d-8153d050cbcb.png"
+             alt="Nautilus shell and sunflower head showing the golden spiral and Fibonacci patterns." loading="lazy" />
+        <figcaption><span class="fn">Fig. 1</span> The Fibonacci sequence and the golden ratio φ ≈ 1.618 recur in shells, seed-heads, and galaxies alike.</figcaption>
+      </figure>
+
+      <p class="reveal">You do not need a laboratory to see mathematics at work; you only need to live.
+        Compound interest is an exponential curve deciding your retirement. Insurance, medicine, and every
+        A/B test on the internet are probability in disguise. A recipe is a ratio; music is a ratio too —
+        Pythagoras noticed, two and a half millennia ago, that the consonant intervals correspond to simple
+        integer ratios (the octave is 2:1, the perfect fifth 3:2), and that discovery is the reason a guitar
+        has frets where it does. Your phone's GPS solves a system of equations from four satellites every
+        second and corrects each clock for relativistic time dilation — without that mathematics your
+        position would drift by kilometres per day. Mathematics is not a subject you leave in the classroom;
+        it is the operating system of everyday reality.</p>
+
+      <p class="reveal">Nature, meanwhile, is a mathematician who never stops computing. Sunflower heads
+        pack their seeds along spirals whose counts are consecutive Fibonacci numbers — 34 one way, 55 the
+        other — because that arrangement minimises wasted space. The honeybee builds hexagonal cells, and
+        the <em>Honeycomb Conjecture</em>, finally proved by Thomas Hales in 1999, confirms that the
+        hexagon is the shape that encloses the most area with the least perimeter: evolution discovered an
+        optimal packing theorem. Ferns, Romanesco broccoli, coastlines and the branching of your own lungs
+        are <em>fractals</em> — self-similar structures whose dimension is not a whole number, studied by
+        Benoît Mandelbrot. Planets trace ellipses (Kepler), soap films minimise surface area (the calculus
+        of variations), and water obeys the Navier–Stokes equations — one of the seven unsolved Millennium
+        Problems.</p>
+
+      <p class="reveal">Most profoundly, mathematics is the grammar of human thought itself. Logic is the
+        study of valid inference; a proof is the only standard of certainty our species has ever built —
+        unlike any empirical claim, a proved theorem does not expire. The Greeks showed, around 370 BCE,
+        that <span class="m">√2</span> cannot be written as a ratio of integers; that fact is as certain
+        today as the day it was found, and will be certain when every computer is dust. To learn mathematics
+        is to train the single most transferable skill there is: <em>abstraction</em> — the ability to see
+        that “five apples” and “five miles” and “five dimensions” share a structure, and to reason about the
+        structure rather than the objects.</p>
+
+      <div class="alert tip reveal">
+        <p class="alert-t">💡 Key insight</p>
+        <p>If you remember only one sentence from this section, remember this: mathematics is no more about
+          numbers than astronomy is about telescopes. It is about <strong>structure</strong> — and structure
+          is what everything is made of.</p>
+      </div>
+
+      <blockquote class="pull reveal">
+        <p>The miracle of the appropriateness of the language of mathematics for the formulation of the laws of physics is a wonderful gift which we neither understand nor deserve.</p>
+        <cite>— Eugene P. Wigner, 1960</cite>
+      </blockquote>
+    </section>
+
+    <!-- 02 COMPUTER SCIENCE -->
+    <section id="en-cs">
+      <h2 class="sec-h reveal"><span class="num">02</span> Mathematics in Computer Science</h2>
+
+      <p class="reveal">In 1936, a decade before any electronic computer existed, Alan Turing published
+        <em>“On Computable Numbers, with an Application to the Entscheidungsproblem”</em>. On paper, with
+        pencil, he defined an abstract machine and proved — rigorously — that some well-posed problems can
+        never be solved by any mechanical procedure. Every laptop, phone and server you have ever touched is
+        a physical implementation of that mathematical object. A few years earlier, Claude Shannon had shown
+        in his master's thesis that George Boole's 1854 algebra of true and false could be wired into
+        electrical relays; from that single insight — <span class="m">1</span> and <span class="m">0</span>,
+        on and off — the entire digital world was built. Computer science did not borrow mathematics as a
+        convenience; it <em>is</em> mathematics made physical.</p>
+
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>Branch of mathematics</th><th>What it builds in CS</th><th>Concrete example</th></tr></thead>
+          <tbody>
+            <tr><td>Discrete math &amp; logic</td><td>Circuits, compilers, type systems</td><td>Boolean gates, regular expressions</td></tr>
+            <tr><td>Graph theory</td><td>Networks, routing, search</td><td>PageRank, Dijkstra, social graphs</td></tr>
+            <tr><td>Number theory</td><td>Cryptography</td><td>RSA, elliptic curves, hashing</td></tr>
+            <tr><td>Linear algebra</td><td>Graphics &amp; machine learning</td><td>3D transforms, neural layers</td></tr>
+            <tr><td>Calculus</td><td>Optimisation &amp; physics engines</td><td>Gradient descent, simulation</td></tr>
+            <tr><td>Probability</td><td>AI &amp; randomised algorithms</td><td>Bayesian inference, Monte Carlo</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 2.1 -->
+      <div class="subsec" id="en-discrete">
+        <h3 class="sub-h reveal"><span class="tick">2.1</span> Discrete Mathematics &amp; Logic</h3>
+        <p class="reveal"><em>Discrete</em> means distinct, countable, made of separate steps — the natural
+          habitat of computing, because digital systems have discrete states. Propositional logic gives us
+          statements that are either true or false, joined by connectives. The truth table below is, in
+          effect, the blueprint of every <code>if</code> statement, every SQL <code>WHERE</code> clause and
+          every firewall rule you have ever written.</p>
+
+        <div class="tbl-wrap reveal">
+          <table>
+            <thead><tr><th><span class="m">P</span></th><th><span class="m">Q</span></th><th><span class="m">P ∧ Q</span></th><th><span class="m">P ∨ Q</span></th><th><span class="m">¬P</span></th><th><span class="m">P → Q</span></th></tr></thead>
+            <tbody>
+              <tr><td>T</td><td>T</td><td>T</td><td>T</td><td>F</td><td>T</td></tr>
+              <tr><td>T</td><td>F</td><td>F</td><td>T</td><td>F</td><td>F</td></tr>
+              <tr><td>F</td><td>T</td><td>F</td><td>T</td><td>T</td><td>T</td></tr>
+              <tr><td>F</td><td>F</td><td>F</td><td>F</td><td>T</td><td>T</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="reveal">Boole's algebra maps directly onto logic gates — AND, OR, NOT, XOR — and a
+          remarkable fact follows: the single <strong>NAND</strong> gate is <em>functionally complete</em>,
+          meaning you can build an entire computer from copies of one gate type. Your CPU is, at the bottom,
+          a few billion NAND gates arranged by mathematics. Beyond propositions lie predicates and
+          quantifiers (“for all”, “there exists”), which let us state properties of infinite collections,
+          and proof techniques that every programmer uses without naming them. <strong>Induction</strong> —
+          prove the base case, prove that step <span class="m">k</span> implies step <span class="m">k+1</span>,
+          and the dominoes fall forever — is how we prove that <span class="m">1 + 2 + … + n = n(n+1)/2</span>
+          and how we prove a recursive function terminates. <strong>Proof by contradiction</strong> gave us
+          the irrationality of <span class="m">√2</span>: assume it equals <span class="m">p/q</span> in
+          lowest terms, deduce that both <span class="m">p</span> and <span class="m">q</span> are even, and
+          watch the assumption collapse.</p>
+
+        <p class="reveal">Sets, functions and relations are the scaffolding of data. The relational database
+          — the engine behind most of the world's data — is literally set theory: Codd's 1970 model defines
+          tables as relations and queries as set operations (union, intersection, projection, join). Type
+          systems in languages like Rust or Haskell are logic in disguise, via the
+          <em>Curry–Howard correspondence</em>, which states that a program is a proof and a type is a
+          theorem. Automata theory and regular expressions (Kleene, 1956) describe exactly what patterns a
+          finite machine can recognise — and they power the lexical analysis at the front of every compiler.
+          Finally, combinatorics — the art of counting possibilities — answers questions like “how many
+          passwords of length 12 exist?” and quietly underpins all of probability.</p>
+
+        <div class="alert note reveal">
+          <p class="alert-t">📌 Note</p>
+          <p>Every program you have ever written is, formally, a theorem in a logical system — and the
+            compiler is the proof-checker. A type error is a failed proof.</p>
+        </div>
+      </div>
+
+      <!-- 2.2 -->
+      <div class="subsec" id="en-graph">
+        <h3 class="sub-h reveal"><span class="tick">2.2</span> Graph Theory &amp; Networks</h3>
+        <p class="reveal">Graph theory began with a walk across seven bridges. In 1736 the citizens of
+          Königsberg wondered whether one could cross each of their seven bridges exactly once. Leonhard
+          Euler reduced the map to four dots (land masses) and seven lines (bridges) and proved the walk
+          impossible: such a route requires either zero or two vertices of odd degree, and Königsberg had
+          four. In solving a parlour game, Euler invented an entire discipline — and, arguably, topology
+          itself. A graph is simply <span class="m">G = (V, E)</span>: a set of vertices and a set of edges,
+          and from that tiny definition flows an ocean of structure — paths, cycles, trees, connectivity,
+          colourings, flows.</p>
+
+        <figure class="fig reveal">
+          <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/1e71e2001-c1f1-4bd2-bb93-e5abfe41f0b1.png"
+               alt="A glowing node-and-edge network with one shortest path highlighted in cyan." loading="lazy" />
+          <figcaption><span class="fn">Fig. 2</span> A graph: vertices, edges, and a shortest path (cyan) — the data structure behind maps, the web, and molecules.</figcaption>
+        </figure>
+
+        <p class="reveal">The algorithms that move the modern world live on graphs. <strong>Breadth-first
+          search</strong> finds the fewest hops between two nodes — the mathematics of “six degrees of
+          separation” and of message routing. <strong>Depth-first search</strong> detects cycles and solves
+          mazes. <strong>Dijkstra's algorithm</strong>, conceived by Edsger Dijkstra in about twenty minutes
+          at a café in 1956, finds shortest weighted paths and quietly runs inside every GPS and every
+          network router on Earth; <strong>A*</strong> adds a heuristic and powers pathfinding in video
+          games. For planar graphs, Euler's beautiful formula <span class="m">V − E + F = 2</span> relates
+          vertices, edges and faces — a fact that survives in three-dimensional polyhedra too.</p>
+
+        <p class="reveal">The most consequential graph algorithm of the web era is <strong>PageRank</strong>:
+          treat the internet as a graph of pages linking to pages, and define a page's importance as the
+          principal <em>eigenvector</em> of the link matrix — a linear-algebra computation on a graph with
+          billions of nodes, and the reason Google could rank results at all. <strong>Minimum spanning
+          trees</strong> (Kruskal, Prim) design cheap, connected networks and cluster data. The
+          <strong>Gale–Shapley stable-matching algorithm</strong> (1962) pairs medical residents with
+          hospitals and students with schools so that no pair would rather defect — a result that earned a
+          Nobel Prize in Economics in 2012. And <strong>graph colouring</strong> schedules exams and
+          allocates CPU registers, resting on the four-colour theorem — proved in 1976 with the help of a
+          computer, the first major theorem whose proof no human could check by hand.</p>
+      </div>
+
+      <!-- 2.3 -->
+      <div class="subsec" id="en-crypto">
+        <h3 class="sub-h reveal"><span class="tick">2.3</span> Cryptography &amp; Cybersecurity</h3>
+        <p class="reveal">Modern cryptography is number theory weaponised for secrecy, and it begins with
+          the <em>Fundamental Theorem of Arithmetic</em>: every integer greater than one factors uniquely
+          into primes. Primes are the atoms of the integers, and the difficulty of pulling a large number
+          apart into its prime atoms is the lock on which much of the internet hangs. Add
+          <strong>modular arithmetic</strong> — Gauss's “clock mathematics”, where we work with remainders,
+          <span class="m">a ≡ b (mod n)</span> — together with Euler's totient function
+          <span class="m">φ(n)</span>, and you have the ingredients of <strong>RSA</strong>, published in
+          1977 by Rivest, Shamir and Adleman.</p>
+
+        <p class="reveal">The mechanism is elegant. Pick two large primes <span class="m">p, q</span>; let
+          <span class="m">n = pq</span> be the public modulus and <span class="m">φ(n) = (p−1)(q−1)</span>.
+          Choose a public exponent <span class="m">e</span> coprime to <span class="m">φ(n)</span>, then
+          compute the private key <span class="m">d</span> with <span class="m">e·d ≡ 1 (mod φ(n))</span>.
+          Encryption raises the message to the power <span class="m">e</span> modulo <span class="m">n</span>;
+          decryption raises it to <span class="m">d</span>. Anyone can encrypt with the public key, but
+          recovering <span class="m">d</span> requires factoring <span class="m">n</span> — and for a
+          2048-bit modulus the best known classical algorithms need on the order of
+          <span class="m">2<sup>110</sup></span> operations, far beyond any foreseeable machine. The same
+          hardness of the <em>discrete logarithm</em> powers <strong>Diffie–Hellman</strong> key exchange,
+          which lets two strangers agree on a secret over a public channel, and <strong>elliptic-curve
+          cryptography</strong> (<span class="m">y² = x³ + ax + b</span>) achieves equal security with
+          256-bit keys — the curve <code>secp256k1</code> secures Bitcoin. Hash functions such as
+          <strong>SHA-256</strong> compress any input to a fixed digest with the <em>avalanche property</em>
+          (flip one bit, half the output flips), underpinning blockchains and password storage.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · rsa (toy)</span><button class="copy">Copy</button></div>
+<pre><code><span class="c"># A 60-second taste of RSA — toy numbers only; real keys use 2048+ bits.</span>
+<span class="n">p</span>, <span class="n">q</span> = <span class="n">61</span>, <span class="n">53</span>                 <span class="c"># two primes (keep secret!)</span>
+<span class="n">n</span>   = <span class="n">p</span> * <span class="n">q</span>                     <span class="c"># 3233  — the public modulus</span>
+<span class="n">phi</span> = (<span class="n">p</span> - <span class="n">1</span>) * (<span class="n">q</span> - <span class="n">1</span>)         <span class="c"># 3120  — Euler's totient</span>
+<span class="n">e</span>   = <span class="n">17</span>                        <span class="c"># public exponent, gcd(e, phi) == 1</span>
+<span class="n">d</span>   = <span class="f">pow</span>(<span class="n">e</span>, -<span class="n">1</span>, <span class="n">phi</span>)           <span class="c"># private key 2753, since e·d ≡ 1 (mod φ)</span>
+
+<span class="n">message</span> = <span class="n">65</span>                    <span class="c"># the letter 'A' as a number</span>
+<span class="n">cipher</span>  = <span class="f">pow</span>(<span class="n">message</span>, <span class="n">e</span>, <span class="n">n</span>)   <span class="c"># encrypt: 65^17  mod 3233  -> 2790</span>
+<span class="n">plain</span>   = <span class="f">pow</span>(<span class="n">cipher</span>,  <span class="n">d</span>, <span class="n">n</span>)   <span class="c"># decrypt: 2790^2753 mod 3233 -> 65  ✓</span>
+<span class="f">print</span>(<span class="n">plain</span> == <span class="n">message</span>)        <span class="c"># True</span></code></pre>
+        </div>
+
+        <p class="reveal">Cryptography is also where computer science meets its deepest open question. A
+          <em>one-way function</em> — easy to compute, hard to invert — is what encryption needs, and such
+          functions are believed to exist precisely because most people believe that
+          <strong>P ≠ NP</strong>: if every problem whose solution is easy to <em>check</em> were also easy
+          to <em>find</em>, the locks would melt. We will return to this in the complexity section, and to
+          its quantum threat in the future section.</p>
+
+        <div class="alert warn reveal">
+          <p class="alert-t">⚠️ Warning</p>
+          <p>The primes above are toy-sized. <code>61 × 53</code> falls to a pocket calculator; real RSA
+            moduli have 617 decimal digits. Never roll your own crypto with small numbers.</p>
+        </div>
+      </div>
+
+      <!-- 2.4 -->
+      <div class="subsec" id="en-complexity">
+        <h3 class="sub-h reveal"><span class="tick">2.4</span> Algorithmic Complexity &amp; Big-O</h3>
+        <p class="reveal">Hardware changes every year; mathematics does not. That is exactly why, in 1965,
+          Hartmanis and Stearns formalised <em>time complexity</em>: instead of measuring seconds (which
+          depend on the chip), we measure how the cost of an algorithm <strong>scales</strong> as the input
+          grows. The notation <span class="m">f(n) = O(g(n))</span> means that, beyond some point,
+          <span class="m">f</span> never exceeds a constant multiple of <span class="m">g</span> — we keep
+          only the dominant term and ignore constants, because a factor of two is irrelevant next to the
+          difference between <span class="m">n</span> and <span class="m">n²</span>.</p>
+
+        <div class="tbl-wrap reveal">
+          <table>
+            <thead><tr><th>Notation</th><th>Name</th><th>Example</th><th>n = 1 000 000 000</th></tr></thead>
+            <tbody>
+              <tr><td><span class="m">O(1)</span></td><td>constant</td><td>hash-table lookup</td><td>1 step</td></tr>
+              <tr><td><span class="m">O(log n)</span></td><td>logarithmic</td><td>binary search</td><td>≈ 30 steps</td></tr>
+              <tr><td><span class="m">O(n)</span></td><td>linear</td><td>scan an array</td><td>10⁹ steps</td></tr>
+              <tr><td><span class="m">O(n log n)</span></td><td>linearithmic</td><td>merge sort</td><td>≈ 3·10¹⁰</td></tr>
+              <tr><td><span class="m">O(n²)</span></td><td>quadratic</td><td>bubble sort</td><td>10¹⁸ steps</td></tr>
+              <tr><td><span class="m">O(2ⁿ)</span></td><td>exponential</td><td>subset enumeration</td><td>∞ (the heat death of the universe)</td></tr>
+              <tr><td><span class="m">O(n!)</span></td><td>factorial</td><td>brute-force TSP</td><td>unimaginable</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="reveal">Notice the chasm between <span class="m">O(log n)</span> and <span class="m">O(n)</span>:
+          binary search finds a name in a sorted list of a <em>billion</em> entries in about thirty
+          comparisons, because each step halves the world. Notice too why we care about sorting: any
+          comparison-based sort needs at least <span class="m">Ω(n log n)</span> comparisons, because its
+          decision tree has <span class="m">n!</span> leaves and
+          <span class="m">log₂(n!) ≈ n log₂ n</span> by Stirling's approximation — merge sort and heap sort
+          hit this wall exactly, and no cleverness can beat it without abandoning comparisons (radix sort
+          does). The table's last two rows are why “it works on my laptop” is not a complexity argument: an
+          exponential algorithm that finishes in a second on ten items will outlive civilisation on a
+          hundred.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · complexity</span><button class="copy">Copy</button></div>
+<pre><code><span class="k">def</span> <span class="f">constant_time</span>(arr):            <span class="c"># O(1) — one look, any size</span>
+    <span class="k">return</span> arr[<span class="n">0</span>]
+
+<span class="k">def</span> <span class="f">linear_search</span>(arr, target):    <span class="c"># O(n) — scan everything</span>
+    <span class="k">for</span> i, item <span class="k">in</span> <span class="f">enumerate</span>(arr):
+        <span class="k">if</span> item == target:
+            <span class="k">return</span> i
+    <span class="k">return</span> -<span class="n">1</span>
+
+<span class="k">def</span> <span class="f">binary_search</span>(arr, target):    <span class="c"># O(log n) — halve the world each step</span>
+    lo, hi = <span class="n">0</span>, <span class="f">len</span>(arr) - <span class="n">1</span>
+    <span class="k">while</span> lo &lt;= hi:
+        mid = (lo + hi) // <span class="n">2</span>
+        <span class="k">if</span> arr[mid] == target: <span class="k">return</span> mid
+        <span class="k">if</span> arr[mid] &lt; target:  lo = mid + <span class="n">1</span>
+        <span class="k">else</span>:                  hi = mid - <span class="n">1</span>
+    <span class="k">return</span> -<span class="n">1</span></code></pre>
+        </div>
+
+        <p class="reveal">Complexity theory also frames the most famous open problem in mathematics:
+          <strong>P vs NP</strong>, a Clay Millennium Problem worth a million dollars. <em>P</em> is the
+          class of problems a computer can <em>solve</em> quickly; <em>NP</em> is the class it can
+          <em>verify</em> quickly (given a candidate answer). Every NP problem — scheduling, protein
+          folding, the travelling salesperson — would collapse into P if P equalled NP, and most of
+          cryptography would fall with it. The consensus, unproven, is that P ≠ NP: that finding a solution
+          is genuinely harder than checking one. Whether that belief is a theorem or an illusion remains
+          one of the great questions of our species.</p>
+      </div>
+    </section>
+
+    <!-- 03 ARTIFICIAL INTELLIGENCE -->
+    <section id="en-ai">
+      <h2 class="sec-h reveal"><span class="num">03</span> Mathematics in Artificial Intelligence</h2>
+
+      <p class="reveal">Strip away the marketing and a modern large language model is a single, enormous
+        mathematical function <span class="m">f : ℝ<sup>d</sup> → ℝ<sup>V</sup></span> — a map from a
+        high-dimensional vector of inputs to a probability distribution over the vocabulary — with on the
+        order of <span class="m">10<sup>12</sup></span> tunable parameters. It is <em>differentiated</em> by
+        calculus, <em>optimised</em> by probability, and <em>implemented</em> by linear algebra. The phrase
+        “deep learning” sounds like a kind of magic; in truth it is three undergraduate mathematics courses
+        stacked very, very high. The rest of this section unpacks those three courses.</p>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/1d2ed44c8-08e2-4443-8fc6-249aa19aa705.png"
+             alt="A neural network drawn as layers of glowing nodes connected by weighted edges, with a faint matrix grid behind." loading="lazy" />
+        <figcaption><span class="fn">Fig. 3</span> A neural layer is the equation <span class="m">y = σ(Wx + b)</span> — a matrix, a vector, a bias, a non-linearity. Repeat a hundred times and you get intelligence-ish behaviour.</figcaption>
+      </figure>
+
+      <!-- 3.1 -->
+      <div class="subsec" id="en-linalg">
+        <h3 class="sub-h reveal"><span class="tick">3.1</span> Linear Algebra — Matrices, Vectors &amp; Networks</h3>
+        <p class="reveal">A <strong>vector</strong> is an ordered list of numbers; geometrically, an arrow;
+          in machine learning, a point in a high-dimensional space where every datum lives. A
+          <strong>matrix</strong> is a rectangular array that acts on vectors as a <em>linear
+          transformation</em> — it rotates, stretches, projects, shears. Crucially, multiplying two matrices
+          <em>composes</em> their transformations, so a deep network is a long chain of transformations
+          applied to data. This single idea — that a layer is a matrix multiply — is the whole architecture.</p>
+
+        <p class="reveal">Concretely, one layer of a neural network computes
+          <span class="m">y = σ(Wx + b)</span>: an input vector <span class="m">x</span> (say 4096 numbers),
+          a weight matrix <span class="m">W</span> (4096 × 4096 ≈ 16.7 million numbers), a bias vector
+          <span class="m">b</span>, and a non-linear activation <span class="m">σ</span> such as ReLU or
+          GELU. A 175-billion-parameter model is therefore 175 billion numbers arranged into matrices and
+          tuned, one gradient step at a time, until the function approximates language. Words themselves
+          become vectors — <em>embeddings</em> — and geometry encodes meaning: in the famous word2vec space
+          of Mikolov et al. (2013), <span class="m">king − man + woman ≈ queen</span>. The Transformer's
+          <strong>attention</strong> mechanism (2017) is pure matrix algebra too: it forms query, key and
+          value matrices and computes
+          <span class="m">softmax(QK<sup>⊤</sup> / √d)·V</span>, performed trillions of times per second on
+          GPUs whose entire architecture — SIMD lanes, tensor cores, FLOPS — exists for the sole purpose of
+          multiplying matrices fast.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · matrix multiply</span><button class="copy">Copy</button></div>
+<pre><code><span class="k">def</span> <span class="f">matmul</span>(A, B):
+    <span class="s">"""Multiply (m×n) · (n×p) -> (m×p). This dot product IS a neural layer."""</span>
+    rows_A, cols_A = <span class="f">len</span>(A), <span class="f">len</span>(A[<span class="n">0</span>])
+    rows_B, cols_B = <span class="f">len</span>(B), <span class="f">len</span>(B[<span class="n">0</span>])
+    <span class="k">assert</span> cols_A == rows_B, <span class="s">"inner dimensions must match"</span>
+    C = [[<span class="n">0.0</span>] * cols_B <span class="k">for</span> _ <span class="k">in</span> <span class="f">range</span>(rows_A)]
+    <span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(rows_A):           <span class="c"># each row of A</span>
+        <span class="k">for</span> j <span class="k">in</span> <span class="f">range</span>(cols_B):       <span class="c"># each column of B</span>
+            C[i][j] = <span class="f">sum</span>(A[i][k] * B[k][j] <span class="k">for</span> k <span class="k">in</span> <span class="f">range</span>(cols_A))
+    <span class="k">return</span> C
+
+<span class="c"># In practice one line replaces the whole loop — and runs on a GPU:</span>
+<span class="c">#   C = A @ B      # NumPy / PyTorch: the forward pass of a layer</span></code></pre>
+        </div>
+
+        <p class="reveal">Beyond the forward pass, linear algebra also explains <em>compression</em>. The
+          <strong>Singular Value Decomposition</strong> (SVD) factors any matrix into three pieces and lets
+          you keep only its most important directions — the engine behind recommendation systems, image
+          compression and noise removal. <strong>Principal Component Analysis</strong> is SVD in disguise,
+          finding the axes along which data varies most. If you learn only one branch of mathematics for
+          artificial intelligence, make it linear algebra: it is the currency in which every model pays its
+          rent.</p>
+
+        <div class="alert tip reveal">
+          <p class="alert-t">💡 Key insight</p>
+          <p>A neural network does not “understand” in any mystical sense — it <em>transforms</em> vectors.
+            Every capability you observe is geometry in a space of thousands of dimensions.</p>
+        </div>
+      </div>
+
+      <!-- 3.2 -->
+      <div class="subsec" id="en-calculus">
+        <h3 class="sub-h reveal"><span class="tick">3.2</span> Calculus — Gradients &amp; Backpropagation</h3>
+        <p class="reveal">Linear algebra tells us what a network <em>is</em>; calculus tells us how it
+          <em>learns</em>. The derivative, invented independently by Newton and Leibniz in the 1680s, is the
+          instantaneous rate of change — the slope of the tangent line. For a function of many variables we
+          take <em>partial</em> derivatives, one per parameter, and bundle them into the
+          <strong>gradient</strong> <span class="m">∇L</span>, a vector that points in the direction of
+          steepest <em>ascent</em> of the loss function <span class="m">L</span>. Training is then almost
+          absurdly simple to state: measure how wrong the model is, compute the gradient, and nudge every
+          parameter a little <em>against</em> it.</p>
+
+        <div class="math-block reveal">
+          <span class="eq"><i>θ</i><sub>t+1</sub> = <i>θ</i><sub>t</sub> − <i>η</i> · ∇<sub><i>θ</i></sub> <i>L</i>(<i>θ</i><sub>t</sub>)</span>
+        </div>
+
+        <p class="reveal">That update rule is <strong>gradient descent</strong>. The scalar
+          <span class="m">η</span> is the learning rate: too large and you overshoot the valley and diverge;
+          too small and you crawl forever. Picture descending a foggy mountain — you cannot see the bottom,
+          so you feel the slope beneath your feet and step downhill, again and again. The loss landscape of
+          a real model has billions of dimensions and is riddled with saddles and plateaus, yet this blind
+          local walk, repeated over trillions of examples, reliably finds astonishingly good solutions — a
+          fact we still do not fully understand theoretically.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · gradient descent</span><button class="copy">Copy</button></div>
+<pre><code><span class="c"># Minimise f(x) = (x - 3)^2  whose derivative is f'(x) = 2(x - 3)</span>
+x  = <span class="n">0.0</span>          <span class="c"># start anywhere</span>
+lr = <span class="n">0.1</span>          <span class="c"># learning rate  η</span>
+<span class="k">for</span> step <span class="k">in</span> <span class="f">range</span>(<span class="n">50</span>):
+    grad = <span class="n">2</span> * (x - <span class="n">3</span>)      <span class="c"># derivative = direction of steepest ascent</span>
+    x    = x - lr * grad     <span class="c"># step downhill</span>
+<span class="f">print</span>(<span class="f">round</span>(x, <span class="n">4</span>))          <span class="c"># 3.0  — the minimum, found by calculus</span></code></pre>
+        </div>
+
+        <p class="reveal">The mathematical heart of deep learning, however, is the <strong>chain rule</strong>
+          — the derivative of a composition of functions. A deep network is a long composition
+          <span class="m">L = f<sub>n</sub>(…f<sub>2</sub>(f<sub>1</sub>(x))…)</span>, and the chain rule
+          lets us compute the gradient with respect to <em>every</em> parameter by propagating derivatives
+          backwards, layer by layer, each multiplying by its local Jacobian. This is
+          <strong>backpropagation</strong> (Rumelhart, Hinton &amp; Williams, 1986): not a new idea, but the
+          chain rule executed at planetary scale. Modern optimisers — SGD with momentum, Adam, AdaGrad — are
+          refinements of the same rule, blending calculus with statistics to navigate the landscape faster.
+          Without the chain rule, deep learning would be impossible; with it, a single backward pass costs
+          only about twice a forward pass, no matter how deep the network.</p>
+      </div>
+
+      <!-- 3.3 -->
+      <div class="subsec" id="en-prob">
+        <h3 class="sub-h reveal"><span class="tick">3.3</span> Probability &amp; Statistics — Reasoning Under Uncertainty</h3>
+        <p class="reveal">The world is noisy, data is incomplete, and predictions are never certain — so
+          intelligence must reason under uncertainty, and the mathematics of uncertainty is probability,
+          axiomatised by Kolmogorov in 1933. At its centre stands <strong>Bayes' theorem</strong>, a
+          one-line rule for updating belief in the light of evidence: a <em>prior</em> becomes a
+          <em>posterior</em> once multiplied by the likelihood of what you observed.</p>
+
+        <div class="math-block reveal">
+          <span class="eq"><i>P</i>(<i>A</i> | <i>B</i>) =
+            <span class="frac"><span class="top"><i>P</i>(<i>B</i> | <i>A</i>) · <i>P</i>(<i>A</i>)</span><span class="bot"><i>P</i>(<i>B</i>)</span></span>
+          </span>
+        </div>
+
+        <p class="reveal">Bayes' theorem is also a cure for bad intuition. Imagine a test that is 99%
+          accurate for a disease affecting one person in ten thousand. You test positive — surely you are
+          sick? Bayes says no: the overwhelming rarity of the disease means a positive result still implies
+          only about a 1% chance of actually having it (most positives are false alarms). That single
+          formula reshapes how doctors, jurors and engineers should think about evidence. Structured into a
+          directed graph of conditional dependencies, it becomes a <strong>Bayesian network</strong> (Judea
+          Pearl, Turing Award 2011) — the backbone of medical diagnosis systems, spam filters and modern
+          causal inference.</p>
+
+        <p class="reveal">When the next state depends only on the present and not the past, we have a
+          <strong>Markov chain</strong> — and PageRank is exactly a Markov chain on the web graph, its
+          stationary distribution giving page importance. <strong>Markov-chain Monte Carlo</strong>
+          (Metropolis et al., 1953) lets us sample from probability distributions we cannot write down
+          explicitly, powering everything from Bayesian statistics to rendering. Long before Transformers,
+          language models <em>were</em> Markov chains over words. Distributions, too, are everywhere: the
+          <strong>Central Limit Theorem</strong> guarantees that sums of independent noise converge to the
+          Gaussian bell curve, which is why the normal distribution appears in measurement error, finance
+          and physics alike.</p>
+
+        <p class="reveal">How, then, does a model actually <em>learn</em> from data? By
+          <strong>maximum likelihood</strong>: we adjust parameters to make the observed training data as
+          probable as possible, which for classification is exactly the same as minimising the
+          <em>cross-entropy</em> loss. The final <strong>softmax</strong> layer turns raw scores (logits)
+          into a probability distribution over the vocabulary, and every time a language model emits the
+          next token it is rolling a loaded die whose weights were tuned by calculus on a probability
+          distribution. Claude Shannon, in 1948, made this quantitative with <strong>information theory</strong>:
+          the <em>entropy</em> <span class="m">H(X) = − Σ p(x) log₂ p(x)</span> measures surprise in
+          <em>bits</em> — and a bit, the atom of every computer, is itself a mathematical unit.</p>
+
+        <div class="alert important reveal">
+          <p class="alert-t">⚡ Important</p>
+          <p>Probability is not a footnote to AI — it is the objective function. “Learning” is just
+            minimising the distance (KL divergence) between the model's distribution and reality's.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 FUTURE -->
+    <section id="en-future">
+      <h2 class="sec-h reveal"><span class="num">04</span> The Future — Quantum Computing &amp; AGI</h2>
+
+      <p class="reveal">The next revolution is, once again, a chapter of linear algebra — this time over the
+        complex numbers. A classical bit is <span class="m">0</span> or <span class="m">1</span>; a
+        <strong>qubit</strong> is a unit vector in <span class="m">ℂ²</span>, a superposition
+        <span class="m">|ψ⟩ = α|0⟩ + β|1⟩</span> with <span class="m">|α|² + |β|² = 1</span>. Quantum gates
+        are <em>unitary matrices</em> that rotate this vector, and the magic is <em>interference</em>: wrong
+        computational paths cancel, correct ones reinforce. Because <span class="m">n</span> qubits live in
+        a <span class="m">2<sup>n</sup></span>-dimensional space, just 300 qubits carry more amplitudes than
+        there are atoms in the observable universe. In 1994 Peter Shor showed that such a machine can factor
+        integers in polynomial time — which means it would shatter RSA and break the cryptography of section
+          2.3. The response is already underway: <em>post-quantum cryptography</em> based on lattice problems
+        (the NIST standards CRYSTALS-Kyber and Dilithium) replaces factoring with a problem even quantum
+        computers are not known to solve efficiently.</p>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/111294890-3bad-4ac8-8b23-1d847aec315a.png"
+             alt="A glowing Bloch sphere representing a qubit, with axis lines, a gold state vector and orbiting rings." loading="lazy" />
+        <figcaption><span class="fn">Fig. 4</span> The Bloch sphere: a qubit as a point on a sphere. Quantum computing is linear algebra on this sphere, with interference as the engine.</figcaption>
+      </figure>
+
+      <div class="math-block reveal">
+        <span class="eq">|ψ⟩ = <i>α</i>|0⟩ + <i>β</i>|1⟩ ,&nbsp;&nbsp; |<i>α</i>|² + |<i>β</i>|² = 1</span>
+      </div>
+
+      <p class="reveal">Artificial General Intelligence poses a different kind of mathematical frontier.
+        Today's models are breathtaking interpolators, but AGI would require <em>compositionality</em>,
+        long-horizon planning and genuine formal reasoning — abilities that point toward
+        <strong>neuro-symbolic</strong> systems, where neural perception is fused with logical deduction.
+        Information theory will remain central: the <strong>KL divergence</strong> that measures how one
+        distribution approximates another is, quite literally, the training objective, and
+        <strong>learning theory</strong> (PAC learning, generalisation bounds) asks the uncomfortable
+        question we still cannot fully answer — <em>why does gradient descent generalise at all?</em> Some
+        researchers look to <strong>category theory</strong> for a mathematics of composition and
+        invariance, and the P-vs-NP question quietly hovers over everything: is intelligence itself
+        computable in polynomial time, or are some forms of understanding intrinsically hard?</p>
+
+      <blockquote class="pull reveal">
+        <p>The Transformer was a paper about attention. Its successor will be a paper about invariance, composition, or proof — which is to say, it will be a theorem.</p>
+        <cite>— a reasonable bet for the 2030s</cite>
+      </blockquote>
+    </section>
+
+    <!-- CONCLUSION -->
+    <section id="en-conclusion">
+      <h2 class="sec-h reveal"><span class="num">∎</span> Conclusion — Read the Source Code</h2>
+
+      <p class="reveal">We began with a claim and we can now restate it without apology: mathematics is the
+        source code of the universe. Computer science is that source code <em>compiled and run</em>;
+        artificial intelligence is that source code <em>learning to rewrite itself</em>. Discrete logic
+        builds the gates, graph theory routes the packets, number theory guards the secrets, complexity
+        theory draws the line between the possible and the impossible, linear algebra builds the models,
+        calculus teaches them, and probability lets them act in an uncertain world. There is no layer of the
+        stack that is not, on inspection, a theorem.</p>
+
+      <p class="reveal">For the developer reading this on a GitHub page: you do not need a PhD to benefit
+        from mathematics — you need a small, well-chosen toolkit and the habit of asking
+        <em>“what is this really computing?”</em> Start with linear algebra (the visual intuition of
+        3Blue1Brown, then the rigour of the <em>Mathematics for Machine Learning</em> book), add probability
+        and a semester of calculus, and ground it all in discrete mathematics (MIT's 6.042J is freely
+        online). For the student: proofs are not hazing rituals; they are the only gymnasium we have for the
+        muscle of certainty. Learn to write one clean proof and you will think differently about every bug
+        you ever meet.</p>
+
+      <div class="alert tip reveal">
+        <p class="alert-t">💡 A 90-day roadmap</p>
+        <p>Weeks 1–4: linear algebra (vectors, matrices, eigenvectors, SVD). Weeks 5–8: probability and
+          calculus (Bayes, distributions, derivatives, the chain rule). Weeks 9–12: discrete math and
+          complexity (logic, graphs, Big-O, a proof or two a day). Build one tiny project per week — a
+          recommender, a classifier, a path-finder — and watch the symbols become tools.</p>
+      </div>
+
+      <p class="reveal">There is a line, often attributed to Edsger Dijkstra, that closes the argument
+        better than any paragraph of mine: <em>“Computer science is no more about computers than astronomy
+          is about telescopes.”</em> The telescope is the instrument; the stars are the mathematics. So pick
+        up the instrument not to pass an exam, but to read the source code of the universe — because
+        everything you love about technology is, in the end, a theorem wearing a costume.</p>
+    </section>
+
+    <!-- REFERENCES -->
+    <section id="en-refs">
+      <h2 class="sec-h reveal"><span class="num">⌘</span> References &amp; Further Reading</h2>
+      <ol class="refs reveal">
+        <li>
+          <span class="rt">Concrete Mathematics</span>
+          <span class="rn">R. L. Graham, D. E. Knuth &amp; O. Patashnik — the bridge between continuous and discrete, written with wit. The single best book for building mathematical muscle for CS.</span>
+          <span class="rm">2nd ed. · Addison-Wesley, 1994 · ISBN 978-0201558029</span>
+        </li>
+        <li>
+          <span class="rt">Introduction to Algorithms (CLRS)</span>
+          <span class="rn">T. H. Cormen, C. E. Leiserson, R. L. Rivest &amp; C. Stein — the encyclopaedia of algorithms and complexity; if a data structure exists, it is in here with a proof.</span>
+          <span class="rm">4th ed. · MIT Press, 2022</span>
+        </li>
+        <li>
+          <span class="rt">Deep Learning</span>
+          <span class="rn">I. Goodfellow, Y. Bengio &amp; A. Courville — the canonical textbook on the mathematics of neural networks, from linear algebra to generative models.</span>
+          <span class="rm">MIT Press, 2016 · free at <a href="https://www.deeplearningbook.org" target="_blank" rel="noopener">deeplearningbook.org</a></span>
+        </li>
+        <li>
+          <span class="rt">Mathematics for Machine Learning</span>
+          <span class="rn">M. P. Deisenroth, A. A. Faisal &amp; C. S. Ong — a compact, modern derivation of exactly the linear algebra, calculus and probability that ML needs.</span>
+          <span class="rm">Cambridge University Press, 2020 · free at <a href="https://mml-book.github.io" target="_blank" rel="noopener">mml-book.github.io</a></span>
+        </li>
+        <li>
+          <span class="rt">Mathematics for Computer Science (MIT 6.042J)</span>
+          <span class="rn">F. T. Leighton &amp; A. R. Meyer — a free, rigorous course on proofs, number theory, graph theory and probability, the discrete backbone of this article.</span>
+          <span class="rm">MIT OpenCourseWare · <a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/" target="_blank" rel="noopener">ocw.mit.edu</a></span>
+        </li>
+      </ol>
+
+      <footer class="art-foot">
+        <div class="tags">
+          <span>#mathematics</span><span>#computer-science</span><span>#ai</span>
+          <span>#linear-algebra</span><span>#cryptography</span><span>#quantum</span>
+        </div>
+        <div>End of article · EN</div>
+      </footer>
+    </section>
+
+  </article>
+
+  <!-- ============================================================
+       PERSIAN ARTICLE  (FA)
+       ============================================================ -->
+  <article id="content-fa" class="lang-content" dir="rtl">
+
+    <!-- چکیده -->
+    <section id="fa-abstract">
+      <p class="kicker">مقالهٔ پژوهشی · تیر ۱۴۰۵ · بنیادهای محاسبات</p>
+      <h1 class="title">چرا ریاضیات <span class="hl">زیربنای همه‌چیز</span> است</h1>
+      <p class="lead">
+        پیش از آنکه نخستین ترانزیستور روشن شود، پیش از آنکه نخستین خط کد نوشته شود، و پیش از آنکه نخستین
+        مغز اندیشه‌ای بسازد، <strong>الگو، ساختار و عدد</strong> بود. مدار هر سیاره، مارپیچ هر کهکشان،
+        ضربان هر قلب، و وزن‌های درون هر شبکهٔ عصبی، همگی از یک دستور زبان خاموش پیروی می‌کنند: ریاضیات.
+        این نوشتار، پژوهشی بلندبالا دربارهٔ این پرسش است که چرا ریاضیات صرفاً ابزاری نیست که مهندسان به
+        کار می‌برند، بلکه همان بستری است که محاسبات، اطلاعات و هوشمندی بر آن بنا شده‌اند. ما از فلسفهٔ
+        عقل محض آغاز می‌کنیم، از ریاضیات گسسته، نظریهٔ گراف، رمزنگاری و نظریهٔ پیچیدگی می‌گذریم، به جبر
+        خطی، حسابان و احتمالی می‌رسیم که هوش مصنوعی مدرن را نیرو می‌بخشند، و سرانجام به مرز کوانتوم و
+        هوش عمومی مصنوعی قدم می‌گذاریم. هر ادعای زیر به یک قضیه، یک طرح اثبات، یا قطعه‌کدی قابل اجرا
+        گره خورده است.
+      </p>
+
+      <div class="meta">
+        <span class="mi">⏱ <b>≈ <span id="rt-fa">۲۵</span> دقیقه مطالعه</b></span>
+        <span class="sep">•</span>
+        <span class="mi">§ <b>۱۳ بخش</b></span>
+        <span class="sep">•</span>
+        <span class="mi">🌐 <b>دو زبانه</b></span>
+        <span class="sep">•</span>
+        <span class="mi">✍ <b>آزمایشگاه پژوهشی Qwen</b></span>
+      </div>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/109148562-3773-4251-a320-9ee520e03a3e.png"
+             alt="مارپیچ طلایی نسبت زرین در میان چندوجهی‌ها، فراکتال‌ها و شبکه‌ای از گره‌ها بر پس‌زمینهٔ تیره." loading="lazy" />
+        <figcaption><span class="fn">شکل ۰</span> ساختار، نه ماده — همان ریاضیاتی که صدف حلزونی را می‌سازد، کهکشان و گرادیان را نیز می‌سازد.</figcaption>
+      </figure>
+
+      <blockquote class="pull reveal">
+        <p>فلسفه در این کتاب بزرگ نگاشته شده است — منظورم جهان هستی است — که پیوسته در برابر نگاه ما گشوده است، اما نمی‌توان آن را فهمید مگر آنکه نخست زبانی را که به آن نوشته شده بیاموزیم؛ و آن به زبان ریاضیات نوشته شده است.</p>
+        <cite>— گالیلئو گالیله، «آزماینده» (۱۶۲)</cite>
+      </blockquote>
+    </section>
+
+    <!-- ۰۱ فلسفه -->
+    <section id="fa-philosophy">
+      <h2 class="sec-h reveal"><span class="num">۰۱</span> فلسفهٔ ریاضیات</h2>
+
+      <p class="reveal">در سال ۱۹۶۰، فیزیک‌دان یوجین ویگنر مقالهٔ کوتاهی با عنوان
+        «کارایی نامعقول ریاضیات در علوم طبیعی» منتشر کرد و در آن حیرتی آرام را بر زبان آورد: معادله‌هایی
+        که ریاضی‌دانان محض، بدون هیچ کاربرد عملی و گاه صرفاً از سر لذت زیبایی‌شناختی، بر کاغذ می‌نگاشتند،
+        دهه‌ها بعد سر از قوانین دقیق فیزیک درمی‌آورند. برنهارت ریمان در دههٔ ۱۸۵۰ هندسهٔ فضاهای خمیده را
+        به‌عنوان یک تمرین فکری ابداع کرد؛ شصت سال بعد، همان هندسه صحنه‌ای شد که اینشتین نسبیت عام را بر آن
+        نوشت. نظریهٔ گروه از تلاش نوجوانی برای تشخیص اینکه کدام معادله‌های چندجمله‌ای با رادیکال حل می‌شوند
+        زاده شد، و به زبان هر ذرهٔ بنیادی که می‌شناسیم بدل گشت. ویگنر این تطابق را «معجزه» خواند — هدیه‌ای
+        «که نه می‌فهمیمش و نه سزاوارش هستیم».</p>
+
+      <p class="reveal">فیلسوفان هنوز بر سر چیستی ریاضیات اختلاف دارند. افلاطون‌گرایان بر این‌اند که
+        اشیای ریاضی در عالمی ایده‌آل زندگی می‌کنند و ما آن‌ها را <em>کشف</em> می‌کنیم، آن‌گونه که
+        ستاره‌شناسان ستارگان را کشف می‌کنند. صورت‌گرایان، به پیروی از هیلبرت، ریاضیات را بازی‌ای با نمادها
+        تحت قواعدی دقیق می‌دانند. شهودگرایان، با براوئر، اصرار دارند که شیء ریاضی تنها وقتی وجود دارد که
+        ذهنی آن را ساخته باشد. سه متافیزیک کاملاً متفاوت — اما هر سه بر قضیه‌ها توافق دارند، و هر سه از
+        اینکه این قضیه‌ها تا چه‌خوب جهان فیزیکی را پیش‌بینی می‌کنند، شگفت‌زده‌اند. اختلاف بر سر
+        <em>هستی‌شناسی</em> ریاضیات است؛ توافق بر سر <em>قدرت</em> آن.</p>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/1a68b6084-9292-4b5e-9c3d-8153d050cbcb.png"
+             alt="صدف حلزونی و گل آفتابگردان که مارپیچ طلایی و الگوهای فیبوناچی را نشان می‌دهند." loading="lazy" />
+        <figcaption><span class="fn">شکل ۱</span> دنبالهٔ فیبوناچی و نسبت زرین φ ≈ ۱٫۶۱۸ در صدف‌ها، دانه‌های گل و کهکشان‌ها تکرار می‌شود.</figcaption>
+      </figure>
+
+      <p class="reveal">برای دیدن ریاضیات در کار، نیازی به آزمایشگاه نیست؛ کافی است زندگی کنید. سود مرکب،
+        منحنی نمایی‌ای است که بازنشستگی شما را تعیین می‌کند. بیمه، پزشکی، و هر آزمایش A/B در اینترنت، احتمال
+        در لباس مبدل‌اند. یک دستور آشپزی یک نسبت است؛ موسیقی نیز نسبت است — فیثاغورث دو و نیم هزاره پیش
+        دریافت که فاصله‌های خوش‌آهنگ با نسبت‌های صحیح ساده متناظرند (اکتاو ۲:۱، پنجم درست ۳:۲)، و همین کشف
+        دلیل آن است که پرده‌های گیتار کجا قرار دارند. سامانهٔ موقعیت‌یاب گوشی شما هر ثانیه دستگاهی از
+        معادله‌ها را از چهار ماهواره حل می‌کند و ساعت هر یک را به‌خاطر اتساع زمانی نسبیتی تصحیح می‌نماید —
+        بدون آن ریاضیات، موقعیت شما روزی چند کیلومتر جابه‌جا می‌شد. ریاضیات درسی نیست که در کلاس جا بگذارید؛
+        سیستم‌عامل واقعیت روزمره است.</p>
+
+      <p class="reveal">طبیعت، از سوی دیگر، ریاضی‌دانی است که هرگز از محاسبه بازنمی‌ایستد. گل آفتابگردان
+        دانه‌هایش را در مارپیچ‌هایی می‌چیند که شمارشان اعداد فیبوناچی متوالی‌اند — ۳۴ به یک سو، ۵۵ به سوی
+        دیگر — زیرا آن آرایش، فضای هدررفته را کمینه می‌کند. زنبور عسل خانه‌های شش‌ضلعی می‌سازد، و
+        «حدس لانهٔ زنبوری» که سرانجام توماس هیلز در ۱۹۹۹ اثبات کرد، تأیید می‌کند که شش‌ضلعی شکلی است که
+        بیشترین مساحت را با کمترین محیط دربرمی‌گیرد: تکامل، قضیه‌ای دربارهٔ بسته‌بندی بهینه کشف کرده است.
+        سرخس‌ها، کلم رومانسکو، خط ساحلی و شاخه‌بندی شش‌های شما <em>فراکتال</em>‌اند — ساختارهایی خودهمانند
+        که بُعدشان عددی صحیح نیست و بنوآ ماندلبرو آن‌ها را مطالعه کرد. سیاره‌ها بیضی می‌پیمایند (کپلر)،
+        پرده‌های صابون مساحت رویه را کمینه می‌کنند (حساب تغییرات)، و آب از معادله‌های ناویه–استوکس پیروی
+        می‌کند — یکی از هفت مسئلهٔ حل‌نشدهٔ هزاره.</p>
+
+      <p class="reveal">ژرف‌تر از همه، ریاضیات دستور زبان اندیشهٔ انسانی است. منطق، مطالعهٔ استنتاج معتبر
+        است؛ و اثبات، تنها معیار قطعیتی است که گونهٔ ما تاکنون ساخته — برخلاف هر ادعای تجربی، قضیه‌ای اثبات‌شده
+        منقضی نمی‌شود. یونانیان حدود ۳۷۰ پیش از میلاد نشان دادند که <span class="m">√2</span> را نمی‌توان به
+        نسبت دو عدد صحیح نوشت؛ این حقیقت امروز به همان اندازهٔ روز کشفش قطعی است، و وقتی هر رایانه‌ای خاک شد
+        نیز قطعی خواهد ماند. آموختن ریاضیات، تمرین قابل‌انتقال‌ترین مهارت ممکن است: <em>تجرید</em> — توانایی
+        دیدن اینکه «پنج سیب» و «پنج مایل» و «پنج بُعد» ساختاری مشترک دارند، و استدلال دربارهٔ ساختار به‌جای
+        اشیاء.</p>
+
+      <div class="alert tip reveal">
+        <p class="alert-t">💡 نکتهٔ کلیدی</p>
+        <p>اگر از این بخش تنها یک جمله به یاد می‌آورید، این را به یاد آورید: ریاضیات بیش از آنکه دربارهٔ عدد
+          باشد، دربارهٔ عدد نیست، همان‌طور که نجوم دربارهٔ تلسکوپ نیست. دربارهٔ <strong>ساختار</strong> است —
+          و ساختار، همان چیزی است که همه‌چیز از آن ساخته شده.</p>
+      </div>
+
+      <blockquote class="pull reveal">
+        <p>معجزهٔ مناسب‌بودن زبان ریاضیات برای صورت‌بندی قوانین فیزیک، هدیه‌ای شگفت است که نه می‌فهمیمش و نه سزاوارش هستیم.</p>
+        <cite>— یوجین پی. ویگنر، ۱۹۶۰</cite>
+      </blockquote>
+    </section>
+
+    <!-- ۰۲ علوم کامپیوتر -->
+    <section id="fa-cs">
+      <h2 class="sec-h reveal"><span class="num">۰۲</span> ریاضیات در علوم کامپیوتر</h2>
+
+      <p class="reveal">در سال ۱۹۳۶، یک دهه پیش از آنکه هیچ رایانهٔ الکترونیکی وجود داشته باشد، آلن تورینگ
+        مقالهٔ «دربارهٔ اعداد محاسب‌پذیر، با کاربردی بر مسئلهٔ تصمیم» را منتشر کرد. روی کاغذ و با مداد،
+        ماشینی انتزاعی تعریف کرد و به‌طور دقیق اثبات نمود که برخی مسائل خوش‌طرح را هیچ رویهٔ مکانیکی‌ای
+        هرگز نمی‌تواند حل کند. هر لپ‌تاپ، گوشی و سروری که تاکنون لمس کرده‌اید، پیاده‌سازی فیزیکی همان شیء
+        ریاضی است. چند سال پیش‌تر، کلود شانون در پایان‌نامهٔ کارشناسی ارشدش نشان داده بود که جبر درست و
+        غلطِ جورج بول (۱۸۵۴) را می‌توان در رله‌های الکتریکی سیم‌کشی کرد؛ و از همان یک بینش —
+        <span class="m">1</span> و <span class="m">0</span>، روشن و خاموش — تمام جهان دیجیتال ساخته شد.
+        علوم کامپیوتر ریاضیات را به‌عنوان یک سهولت قرض نگرفت؛ خودِ ریاضیات است که جسم پوشیده.</p>
+
+      <div class="tbl-wrap reveal">
+        <table>
+          <thead><tr><th>شاخهٔ ریاضیات</th><th>چه می‌سازد در کامپیوتر</th><th>مثال عینی</th></tr></thead>
+          <tbody>
+            <tr><td>ریاضیات گسسته و منطق</td><td>مدارها، کامپایلرها، سیستم نوع</td><td>گیت‌های بولی، عبارت‌های باقاعده</td></tr>
+            <tr><td>نظریهٔ گراف</td><td>شبکه‌ها، مسیریابی، جست‌وجو</td><td>پیج‌رنک، دیکسترا، گراف اجتماعی</td></tr>
+            <tr><td>نظریهٔ اعداد</td><td>رمزنگاری</td><td>RSA، منحنی بیضوی، هش</td></tr>
+            <tr><td>جبر خطی</td><td>گرافیک و یادگیری ماشین</td><td>تبدیل‌های سه‌بعدی، لایه‌های عصبی</td></tr>
+            <tr><td>حسابان</td><td>بهینه‌سازی و موتور فیزیک</td><td>نزول گرادیان، شبیه‌سازی</td></tr>
+            <tr><td>احتمالات</td><td>هوش مصنوعی و الگوریتم‌های تصادفی</td><td>استنتاج بیزی، مونت‌کارلو</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ۲٫۱ -->
+      <div class="subsec" id="fa-discrete">
+        <h3 class="sub-h reveal"><span class="tick">۲٫۱</span> ریاضیات گسسته و منطق</h3>
+        <p class="reveal"><em>گسسته</em> یعنی مجزا، شمارش‌پذیر، ساخته‌شده از گام‌های جداگانه — زیستگاه
+          طبیعی محاسبات، زیرا سامانه‌های دیجیتال حالت‌های گسسته دارند. منطق گزاره‌ها به ما گزاره‌هایی می‌دهد
+          که یا درست‌اند یا غلط، و با رابط‌ها به هم پیوند می‌خورند. جدول ارزش زیر، در واقع، نقشهٔ هر دستور
+          <code>if</code>، هر بند <code>WHERE</code> در SQL، و هر قاعدهٔ دیوار آتش است که تاکنون نوشته‌اید.</p>
+
+        <div class="tbl-wrap reveal">
+          <table>
+            <thead><tr><th><span class="m">P</span></th><th><span class="m">Q</span></th><th><span class="m">P ∧ Q</span></th><th><span class="m">P ∨ Q</span></th><th><span class="m">¬P</span></th><th><span class="m">P → Q</span></th></tr></thead>
+            <tbody>
+              <tr><td>د</td><td>د</td><td>د</td><td>د</td><td>ن</td><td>د</td></tr>
+              <tr><td>د</td><td>ن</td><td>ن</td><td>د</td><td>ن</td><td>ن</td></tr>
+              <tr><td>ن</td><td>د</td><td>ن</td><td>د</td><td>د</td><td>د</td></tr>
+              <tr><td>ن</td><td>ن</td><td>ن</td><td>ن</td><td>د</td><td>د</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="reveal">جبر بول مستقیماً به گیت‌های منطقی — AND، OR، NOT، XOR — نگاشت می‌شود، و حقیقتی
+          شگفت از آن پی می‌آید: تنها گیت <strong>NAND</strong> از نظر کارکردی کامل است، یعنی می‌توان یک
+          رایانهٔ کامل را از رونوشت‌هایی از یک نوع گیت ساخت. پردازندهٔ شما، در ته‌وتو، چند میلیارد گیت NAND
+          است که ریاضیات آن‌ها را چیده. فراتر از گزاره‌ها، محمول‌ها و سورها («برای هر»، «وجود دارد») قرار
+          دارند که به ما اجازه می‌دهند ویژگی مجموعه‌های نامتناهی را بیان کنیم، و فنون اثباتی که هر
+          برنامه‌نویسی بی‌آنکه نامشان را بداند به کار می‌برد. <strong>استقرا</strong> — حالت پایه را اثبات کن،
+          اثبات کن که گام <span class="m">k</span> گام <span class="m">k+1</span> را نتیجه می‌دهد، و دومینوها
+          تا ابد می‌افتند — روشی است که با آن <span class="m">1 + 2 + … + n = n(n+1)/2</span> را اثبات
+          می‌کنیم و نیز اثبات می‌کنیم تابعی بازگشتی پایان می‌یابد. <strong>اثبات به‌روش خلف</strong>
+          گنگ‌بودن <span class="m">√2</span> را به ما داد: فرض کن برابر <span class="m">p/q</span> در ساده‌ترین
+          شکل است، نتیجه بگیر که هم <span class="m">p</span> و هم <span class="m">q</span> زوج‌اند، و فروپاشی
+          فرض را تماشا کن.</p>
+
+        <p class="reveal">مجموعه‌ها، تابع‌ها و رابطه‌ها داربست داده‌اند. پایگاه دادهٔ رابطه‌ای — موتوری که
+          پشت بیشتر دادهٔ جهان است — در لفظ، نظریهٔ مجموعه‌هاست: مدل ۱۹۷۰ کاد، جدول‌ها را رابطه و پرس‌وجوها
+          را عملیات مجموعه‌ای (اجتماع، اشتراک، تصویر، الحاق) تعریف می‌کند. سیستم‌های نوع در زبان‌هایی چون
+          راست یا هسکل، منطق در لباس مبدل‌اند، از راه <em>تناظر کوری–هاوارد</em> که می‌گوید برنامه یک اثبات
+          است و نوع یک قضیه. نظریهٔ خودکارها و عبارت‌های باقاعده (کلین، ۱۹۵) دقیقاً توصیف می‌کنند که یک ماشین
+          متناهی چه الگوهایی را می‌تواند بشناسد — و آن‌ها تحلیل واژگانی را در جلوی هر کامپایلری نیرو
+          می‌بخشند. سرانجام، ترکیبیات — هنر شمارش امکان‌ها — به پرسش‌هایی چون «چند گذرواژهٔ ۱۲ نویسه‌ای وجود
+          دارد؟» پاسخ می‌دهد و بی‌سروصدا بنیان همهٔ احتمالات است.</p>
+
+        <div class="alert note reveal">
+          <p class="alert-t">📌 یادداشت</p>
+          <p>هر برنامه‌ای که تاکنون نوشته‌اید، به‌طور صوری، قضیه‌ای در یک سامانهٔ منطقی است — و کامپایلر،
+            بررسی‌کنندهٔ اثبات. خطای نوع، اثباتی شکست‌خورده است.</p>
+        </div>
+      </div>
+
+      <!-- ۲٫۲ -->
+      <div class="subsec" id="fa-graph">
+        <h3 class="sub-h reveal"><span class="tick">۲٫۲</span> نظریهٔ گراف و شبکه‌ها</h3>
+        <p class="reveal">نظریهٔ گراف با پیاده‌روی بر هفت پل آغاز شد. در ۱۷۳۶ شهروندان کونیگسبرگ می‌پرسیدند
+          آیا می‌توان از هر یک از هفت پلشان دقیقاً یک بار گذشت. لئونهارد اویلر نقشه را به چهار نقطه (خشکی‌ها)
+          و هفت خط (پل‌ها) تقلیل داد و پیاده‌روی را ناممکن اثبات کرد: چنین مسیری یا صفر یا دو رأس با درجهٔ
+          فرد می‌خواهد، و کونیگسبرگ چهار تا داشت. با حل یک بازی مجلسی، اویلر رشته‌ای کامل را ابداع کرد — و
+          شاید خود توپولوژی را. گراف چیزی نیست جز <span class="m">G = (V, E)</span>: مجموعه‌ای از رأس‌ها و
+          مجموعه‌ای از یال‌ها، و از همین تعریف کوچک، اقیانوسی از ساختار جاری می‌شود — مسیرها، دورها، درخت‌ها،
+          همبندی، رنگ‌آمیزی‌ها، شارها.</p>
+
+        <figure class="fig reveal">
+          <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/1e71e2001-c1f1-4bd2-bb93-e5abfe41f0b1.png"
+               alt="شبکه‌ای درخشان از گره‌ها و یال‌ها با یک کوتاه‌ترین مسیر به رنگ فیروزه‌ای." loading="lazy" />
+          <figcaption><span class="fn">شکل ۲</span> یک گراف: رأس‌ها، یال‌ها، و کوتاه‌ترین مسیر (فیروزه‌ای) — ساختار دادهٔ پشت نقشه‌ها، وب، و مولکول‌ها.</figcaption>
+        </figure>
+
+        <p class="reveal">الگوریتم‌هایی که جهان مدرن را به حرکت درمی‌آورند، بر گراف زندگی می‌کنند.
+          <strong>جست‌وجوی اول سطح</strong> کم‌ترین پرش میان دو گره را می‌یابد — ریاضیات «شش درجهٔ جدایی» و
+          مسیریابی پیام. <strong>جست‌وجوی اول عمق</strong> دورها را تشخیص می‌دهد و هزارتو را حل می‌کند.
+          <strong>الگوریتم دیکسترا</strong>، که ادسخر دیکسترا در حدود بیست دقیقه در کافه‌ای در ۱۹۵۶ اندیشید،
+          کوتاه‌ترین مسیرهای وزن‌دار را می‌یابد و بی‌سروصدا درون هر GPS و هر مسیریاب شبکه‌ای روی زمین اجرا
+          می‌شود؛ <strong>+A</strong> اکتشافی‌ای می‌افزاید و مسیریابی بازی‌های ویدیویی را نیرو می‌بخشد. برای
+          گراف‌های مسطح، فرمول زیبای اویلر <span class="m">V − E + F = 2</span> رأس‌ها، یال‌ها و وجه‌ها را به
+          هم پیوند می‌دهد — حقیقتی که در چندوجهی‌های سه‌بعدی نیز برپاست.</p>
+
+        <p class="reveal">پیامدبارترین الگوریتم گرافی دوران وب، <strong>پیج‌رنک</strong> است: اینترنت را گرافی
+          از صفحه‌هایی بدانید که به هم پیوند می‌دهند، و اهمیت هر صفحه را <em>ویژه‌بردار</em> اصلی ماتریس
+          پیوندها تعریف کنید — محاسبه‌ای از جبر خطی بر گرافی با میلیاردها گره، و دلیل آنکه گوگل اصلاً توانست
+          نتایج را رتبه‌بندی کند. <strong>درخت پوشای کمینه</strong> (کروسکال، پریم) شبکه‌های ارزان و همبند را
+          طراحی و داده را خوشه‌بندی می‌کند. <strong>الگوریتم تطابق پایدار گیل–شپلی</strong> (۱۹۶) پزشکان
+          مقیم را با بیمارستان‌ها و دانش‌آموزان را با مدرسه‌ها جفت می‌کند، چنان‌که هیچ جفتی ترجیح ندهد جدا
+          شود — نتیجه‌ای که در ۲۰۱۲ جایزهٔ نوبل اقتصاد گرفت. و <strong>رنگ‌آمیزی گراف</strong> امتحانات را
+          زمان‌بندی و ثبات‌های پردازنده را تخصیص می‌دهد، و بر قضیهٔ چهاررنگ تکیه دارد — که در ۱۹۷۶ با کمک
+          رایانه اثبات شد، نخستین قضیهٔ بزرگ که اثباتش را هیچ انسانی نتوانست با دست بررسی کند.</p>
+      </div>
+
+      <!-- ۲٫۳ -->
+      <div class="subsec" id="fa-crypto">
+        <h3 class="sub-h reveal"><span class="tick">۲٫۳</span> رمزنگاری و امنیت سایبری</h3>
+        <p class="reveal">رمزنگاری مدرن، نظریهٔ اعدادی است که برای رازداری سلاح شده، و با
+          <em>قضیهٔ بنیادی حساب</em> آغاز می‌شود: هر عدد صحیح بزرگ‌تر از یک، به‌طور یکتا به عدد اول تجزیه
+          می‌شود. اعداد اول، اتم‌های اعداد صحیح‌اند، و دشواری از هم پاشیدن یک عدد بزرگ به اتم‌های اولش، همان
+          قفلی است که بخش زیادی از اینترنت بر آن آویخته. <strong>حساب پیمانه‌ای</strong> را بیفزایید — «ریاضی
+          ساعت» گاوس، که در آن با باقی‌مانده‌ها کار می‌کنیم، <span class="m">a ≡ b (mod n)</span> — به‌همراه
+          تابع فی اویلر <span class="m">φ(n)</span>، و مواد اولیهٔ <strong>RSA</strong> را دارید، که در ۱۹۷۷
+          ریوست، شمیر و ادلمن منتشرش کردند.</p>
+
+        <p class="reveal">سازوکار ظریف است. دو عدد اول بزرگ <span class="m">p, q</span> برگزینید؛ بگذارید
+          <span class="m">n = pq</span> پیمانهٔ عمومی و <span class="m">φ(n) = (p−1)(q−1)</span> باشد. نمای
+          عمومی <span class="m">e</span> را هم‌اول با <span class="m">φ(n)</span> انتخاب کنید، آنگاه کلید خصوصی
+          <span class="m">d</span> را با <span class="m">e·d ≡ 1 (mod φ(n))</span> محاسبه کنید. رمزنگاری پیام
+          را به توان <span class="m">e</span> به پیمانهٔ <span class="m">n</span> می‌رساند؛ رمزگشایی به توان
+          <span class="m">d</span>. هرکس با کلید عمومی می‌تواند رمز کند، اما بازیابی <span class="m">d</span>
+          نیاز به تجزیهٔ <span class="m">n</span> دارد — و برای پیمانهٔ ۲۰۴۸ بیتی، بهترین الگوریتم‌های کلاسیک
+          شناخته‌شده به ترتیب <span class="m">2<sup>110</sup></span> عملیات نیاز دارند، فراتر از هر ماشین
+          قابل‌تصور. همین دشواری <em>لگاریتم گسسته</em> تبادل کلید <strong>دیفی–هلمن</strong> را نیرو می‌بخشد،
+          که به دو غریبه اجازه می‌دهد بر بستری عمومی بر رازی توافق کنند، و <strong>رمزنگاری منحنی بیضوی</strong>
+          (<span class="m">y² = x³ + ax + b</span>) امنیتی برابر با کلیدهای ۲۵۶ بیتی می‌دهد — منحنی
+          <code>secp256k1</code> بیت‌کوین را ایمن می‌کند. تابع‌های هش چون <strong>SHA-256</strong> هر ورودی را
+          به چکیده‌ای ثابت فشرده می‌کنند، با ویژگی <em>بهمن</em> (یک بیت تغییر کنی، نیمی از خروجی تغییر می‌کند)،
+          و بنیان زنجیره‌بلوکی و ذخیرهٔ گذرواژه‌اند.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · rsa (نمونهٔ آموزشی)</span><button class="copy">کپی</button></div>
+<pre><code><span class="c"># چشیدن RSA در ۶۰ ثانیه — فقط اعداد اسباب‌بازی؛ کلید واقعی ۲۰۴۸+ بیت است.</span>
+<span class="n">p</span>, <span class="n">q</span> = <span class="n">61</span>, <span class="n">53</span>                 <span class="c"># دو عدد اول (مخفی بمانند!)</span>
+<span class="n">n</span>   = <span class="n">p</span> * <span class="n">q</span>                     <span class="c"># 3233  — پیمانهٔ عمومی</span>
+<span class="n">phi</span> = (<span class="n">p</span> - <span class="n">1</span>) * (<span class="n">q</span> - <span class="n">1</span>)         <span class="c"># 3120  — تابع فی اویلر</span>
+<span class="n">e</span>   = <span class="n">17</span>                        <span class="c"># نمای عمومی، gcd(e, phi) == 1</span>
+<span class="n">d</span>   = <span class="f">pow</span>(<span class="n">e</span>, -<span class="n">1</span>, <span class="n">phi</span>)           <span class="c"># کلید خصوصی 2753، چون e·d ≡ 1 (mod φ)</span>
+
+<span class="n">message</span> = <span class="n">65</span>                    <span class="c"># حرف 'A' به‌شکل عدد</span>
+<span class="n">cipher</span>  = <span class="f">pow</span>(<span class="n">message</span>, <span class="n">e</span>, <span class="n">n</span>)   <span class="c"># رمز: 65^17  mod 3233  -> 2790</span>
+<span class="n">plain</span>   = <span class="f">pow</span>(<span class="n">cipher</span>,  <span class="n">d</span>, <span class="n">n</span>)   <span class="c"># رمزگشا: 2790^2753 mod 3233 -> 65  ✓</span>
+<span class="f">print</span>(<span class="n">plain</span> == <span class="n">message</span>)        <span class="c"># True</span></code></pre>
+        </div>
+
+        <p class="reveal">رمزنگاری همچنین جایی است که علوم کامپیوتر به ژرف‌ترین پرسش باز خود می‌رسد.
+          <em>تابع یک‌سویه</em> — محاسبه‌اش آسان، وارونش دشوار — همان چیزی است که رمزنگاری نیاز دارد، و باور
+          بر وجود چنین تابع‌هایی دقیقاً از آن روست که بیشتر مردم باور دارند <strong>P ≠ NP</strong>: اگر هر
+          مسئله‌ای که حلش آسان <em>بررسی</em> می‌شود، آسان نیز <em>یافته</em> می‌شد، قفل‌ها ذوب می‌شدند. در
+          بخش پیچیدگی به این بازمی‌گردیم، و به تهدید کوانتومی‌اش در بخش آینده.</p>
+
+        <div class="alert warn reveal">
+          <p class="alert-t">⚠️ هشدار</p>
+          <p>اعداد اول بالا اندازهٔ اسباب‌بازی‌اند. <code>61 × 53</code> در برابر یک ماشین‌حساب جیبی فرو
+            می‌ریزد؛ پیمانهٔ واقعی RSA دارای ۶۱۷ رقم دهدهی است. هرگز با اعداد کوچک رمزنگاری خودتان را نسازید.</p>
+        </div>
+      </div>
+
+      <!-- ۲٫۴ -->
+      <div class="subsec" id="fa-complexity">
+        <h3 class="sub-h reveal"><span class="tick">۲٫۴</span> پیچیدگی الگوریتم‌ها و نماد O بزرگ</h3>
+        <p class="reveal">سخت‌افزار هر سال تغییر می‌کند؛ ریاضیات نه. دقیقاً به همین دلیل، در ۱۹۶۵،
+          هارتمانیس و استرنز <em>پیچیدگی زمانی</em> را صورت‌بندی کردند: به‌جای اندازه‌گیری ثانیه (که به تراشه
+          وابسته است)، اندازه می‌گیریم که هزینهٔ یک الگوریتم با رشد ورودی چگونه <strong>مقیاس</strong> می‌بندد.
+          نماد <span class="m">f(n) = O(g(n))</span> یعنی فراتر از نقطه‌ای، <span class="m">f</span> هرگز از
+          مضرب ثابتی از <span class="m">g</span> فراتر نمی‌رود — ما تنها جملهٔ غالب را نگه می‌داریم و ثابت‌ها
+          را نادیده می‌گیریم، زیرا ضریب دو در برابر تفاوت میان <span class="m">n</span> و
+          <span class="m">n²</span> بی‌اهمیت است.</p>
+
+        <div class="tbl-wrap reveal">
+          <table>
+            <thead><tr><th>نماد</th><th>نام</th><th>مثال</th><th>n = ۱٬۰۰٬۰۰٬۰۰</th></tr></thead>
+            <tbody>
+              <tr><td><span class="m">O(1)</span></td><td>ثابت</td><td>جست‌وجوی جدول هش</td><td>۱ گام</td></tr>
+              <tr><td><span class="m">O(log n)</span></td><td>لگاریتمی</td><td>جست‌وجوی دودویی</td><td>≈ ۳۰ گام</td></tr>
+              <tr><td><span class="m">O(n)</span></td><td>خطی</td><td>پیمایش آرایه</td><td>۱۰⁹ گام</td></tr>
+              <tr><td><span class="m">O(n log n)</span></td><td>خطی‌لگاریتمی</td><td>مرتب‌سازی ادغامی</td><td>≈ ۳·۱۰¹⁰</td></tr>
+              <tr><td><span class="m">O(n²)</span></td><td>درجه دوم</td><td>مرتب‌سازی حبابی</td><td>۱۰¹⁸ گام</td></tr>
+              <tr><td><span class="m">O(2ⁿ)</span></td><td>نمایی</td><td>شمارش زیرمجموعه‌ها</td><td>∞ (مرگ گرمایی جهان)</td></tr>
+              <tr><td><span class="m">O(n!)</span></td><td>فاکتوریل</td><td>فروشندۀ دوره‌گرد brute-force</td><td>تصور‌ناپذیر</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="reveal">به شکاف میان <span class="m">O(log n)</span> و <span class="m">O(n)</span> توجه کنید:
+          جست‌وجوی دودویی نامی را در فهرستی مرتب از یک <em>میلیارد</em> مدخل در حدود سی مقایسه می‌یابد، زیرا هر
+          گام جهان را نصف می‌کند. توجه کنید چرا مرتب‌سازی مهم است: هر مرتب‌سازی مبتنی بر مقایسه دست‌کم
+          <span class="m">Ω(n log n)</span> مقایسه نیاز دارد، زیرا درخت تصمیمش <span class="m">n!</span> برگ
+          دارد و به تقریب استرلینگ <span class="m">log₂(n!) ≈ n log₂ n</span> — مرتب‌سازی ادغامی و هرمی دقیقاً
+          به این دیوار می‌رسند، و هیچ زیرکی‌ای بدون رهاکردن مقایسه آن را شکست نمی‌دهد (مرتب‌سازی مبنایی چنین
+          می‌کند). دو سطر پایانی جدول دلیل آن‌اند که «روی لپ‌تاپم کار می‌کند» استدلال پیچیدگی نیست: الگوریتمی
+          نمایی که روی ده مدخل در یک ثانیه تمام می‌شود، روی صد مدخل از عمر تمدن فراتر می‌رود.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · پیچیدگی</span><button class="copy">کپی</button></div>
+<pre><code><span class="k">def</span> <span class="f">constant_time</span>(arr):            <span class="c"># O(1) — یک نگاه، هر اندازه‌ای</span>
+    <span class="k">return</span> arr[<span class="n">0</span>]
+
+<span class="k">def</span> <span class="f">linear_search</span>(arr, target):    <span class="c"># O(n) — پیمایش همه‌چیز</span>
+    <span class="k">for</span> i, item <span class="k">in</span> <span class="f">enumerate</span>(arr):
+        <span class="k">if</span> item == target:
+            <span class="k">return</span> i
+    <span class="k">return</span> -<span class="n">1</span>
+
+<span class="k">def</span> <span class="f">binary_search</span>(arr, target):    <span class="c"># O(log n) — هر گام جهان را نصف کن</span>
+    lo, hi = <span class="n">0</span>, <span class="f">len</span>(arr) - <span class="n">1</span>
+    <span class="k">while</span> lo &lt;= hi:
+        mid = (lo + hi) // <span class="n">2</span>
+        <span class="k">if</span> arr[mid] == target: <span class="k">return</span> mid
+        <span class="k">if</span> arr[mid] &lt; target:  lo = mid + <span class="n">1</span>
+        <span class="k">else</span>:                  hi = mid - <span class="n">1</span>
+    <span class="k">return</span> -<span class="n">1</span></code></pre>
+        </div>
+
+        <p class="reveal">نظریهٔ پیچیدگی همچنین مشهورترین مسئلهٔ باز ریاضیات را قاب می‌کند:
+          <strong>P در برابر NP</strong>، مسئلهٔ هزارهٔ کلی با جایزهٔ یک میلیون دلاری. <em>P</em> ردهٔ
+          مسئله‌هایی است که رایانه می‌تواند سریع <em>حل</em> کند؛ <em>NP</em> رده‌ای است که می‌تواند سریع
+          <em>بررسی</em> کند (با داشتن پاسخ کاندید). هر مسئلهٔ NP — زمان‌بندی، تاخوردگی پروتئین، فروشندهٔ
+          دوره‌گرد — اگر P برابر NP بود در P فرو می‌ریخت، و بیشتر رمزنگاری با آن سقوط می‌کرد. اجماع،
+          اثبات‌نشده، این است که P ≠ NP: یعنی یافتن راه‌حل واقعاً دشوارتر از بررسی آن است. اینکه این باور
+          قضیه است یا سراب، همچنان یکی از پرسش‌های بزرگ گونهٔ ماست.</p>
+      </div>
+    </section>
+
+    <!-- ۰۳ هوش مصنوعی -->
+    <section id="fa-ai">
+      <h2 class="sec-h reveal"><span class="num">۰۳</span> ریاضیات در هوش مصنوعی</h2>
+
+      <p class="reveal">بازاریابی را کنار بزنید، و یک مدل زبانی بزرگ مدرن، یک تابع ریاضی واحد و عظیم است:
+        <span class="m">f : ℝ<sup>d</sup> → ℝ<sup>V</sup></span> — نگاشتی از برداری پر بُعد از ورودی‌ها به
+        توزیع احتمالی روی واژگان — با حدود <span class="m">10<sup>12</sup></span> پارامتر قابل تنظیم. با
+        حسابان <em>مشتق</em> گرفته می‌شود، با احتمال <em>بهینه</em> می‌شود، و با جبر خطی <em>پیاده</em>
+        می‌گردد. عبارت «یادگیری عمیق» شبیه نوعی جادو به نظر می‌رسد؛ در حقیقت سه درس ریاضی کارشناسی است که
+        بسیار، بسیار بلند روی هم چیده شده‌اند. بقیهٔ این بخش آن سه درس را باز می‌کند.</p>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/1d2ed44c8-08e2-4443-8fc6-249aa19aa705.png"
+             alt="شبکهٔ عصبی به‌شکل لایه‌هایی از گره‌های درخشان پیوسته با یال‌های وزن‌دار، و شبکهٔ ماتریسی محو در پس‌زمینه." loading="lazy" />
+        <figcaption><span class="fn">شکل ۳</span> یک لایهٔ عصبی همان معادلهٔ <span class="m">y = σ(Wx + b)</span> است — یک ماتریس، یک بردار، یک بایاس، یک غیرخطی. صد بار تکرار کن، رفتاری شبیه هوشمندی به دست می‌آید.</figcaption>
+      </figure>
+
+      <!-- ۳٫۱ -->
+      <div class="subsec" id="fa-linalg">
+        <h3 class="sub-h reveal"><span class="tick">۳٫۱</span> جبر خطی — ماتریس‌ها، بردارها و شبکه‌ها</h3>
+        <p class="reveal"><strong>بردار</strong> فهرستی مرتب از اعداد است؛ از نظر هندسی، پیکانی؛ در یادگیری
+          ماشین، نقطه‌ای در فضایی پر بُعد که هر داده در آن زندگی می‌کند. <strong>ماتریس</strong> آرایه‌ای
+          مستطیلی است که بر بردارها به‌عنوان <em>تبدیل خطی</em> اثر می‌کند — می‌چرخاند، می‌کشد، تصویر می‌کند،
+          کج می‌کند. نکتهٔ کلیدی این است که ضرب دو ماتریس تبدیل‌هایشان را <em>ترکیب</em> می‌کند، پس شبکهٔ
+          عمیق، زنجیره‌ای بلند از تبدیل‌هاست که بر داده اعمال می‌شود. همین یک ایده — که لایه یک ضرب ماتریس
+          است — تمام معماری است.</p>
+
+        <p class="reveal">به‌طور عینی، یک لایهٔ شبکهٔ عصبی <span class="m">y = σ(Wx + b)</span> را محاسبه
+          می‌کند: بردار ورودی <span class="m">x</span> (مثلاً ۴۰۹۶ عدد)، ماتریس وزن <span class="m">W</span>
+          (۴۰۹ × ۴۰۶ ≈ ۱۶٫۷ میلیون عدد)، بردار بایاس <span class="m">b</span>، و فعال‌سازی غیرخطی
+          <span class="m">σ</span> چون ReLU یا GELU. پس مدلی با ۱۷۵ میلیارد پارامتر، ۱۷۵ میلیارد عدد است که
+          در ماتریس‌ها چیده شده‌اند و گام‌به‌گام، با هر گام گرادیان، تنظیم می‌شوند تا تابع زبان را تقریب
+          زند. خود واژه‌ها بردار می‌شوند — <em>تعبیه‌ها</em> — و هندسه معنا را کد می‌کند: در فضای مشهور
+          word2vec میکولوف و همکاران (۲۰۳)، <span class="m">شاه − مرد + زن ≈ ملکه</span>. سازوکار
+          <strong>توجه</strong> ترنسفورمر (۲۰۱۷) نیز جبر خطی محض است: ماتریس‌های پرسش، کلید و مقدار می‌سازد و
+          <span class="m">softmax(QK<sup>⊤</sup> / √d)·V</span> را محاسبه می‌کند، که تریلیون‌ها بار در ثانیه
+          روی GPU اجرا می‌شود — GPUای که تمام معماری‌اش — کانال‌های SIMD، هسته‌های تانسور، FLOPS — صرفاً برای
+          ضرب سریع ماتریس‌ها وجود دارد.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · ضرب ماتریس</span><button class="copy">کپی</button></div>
+<pre><code><span class="k">def</span> <span class="f">matmul</span>(A, B):
+    <span class="s">"""ضرب (m×n) · (n×p) -> (m×p). همین ضرب داخلی یک لایهٔ عصبی است."""</span>
+    rows_A, cols_A = <span class="f">len</span>(A), <span class="f">len</span>(A[<span class="n">0</span>])
+    rows_B, cols_B = <span class="f">len</span>(B), <span class="f">len</span>(B[<span class="n">0</span>])
+    <span class="k">assert</span> cols_A == rows_B, <span class="s">"ابعاد درونی باید برابر باشند"</span>
+    C = [[<span class="n">0.0</span>] * cols_B <span class="k">for</span> _ <span class="k">in</span> <span class="f">range</span>(rows_A)]
+    <span class="k">for</span> i <span class="k">in</span> <span class="f">range</span>(rows_A):           <span class="c"># هر سطر A</span>
+        <span class="k">for</span> j <span class="k">in</span> <span class="f">range</span>(cols_B):       <span class="c"># هر ستون B</span>
+            C[i][j] = <span class="f">sum</span>(A[i][k] * B[k][j] <span class="k">for</span> k <span class="k">in</span> <span class="f">range</span>(cols_A))
+    <span class="k">return</span> C
+
+<span class="c"># در عمل یک خط جای کل حلقه را می‌گیرد — و روی GPU اجرا می‌شود:</span>
+<span class="c">#   C = A @ B      # NumPy / PyTorch: گذر پیش‌روندهٔ یک لایه</span></code></pre>
+        </div>
+
+        <p class="reveal">فراتر از گذر پیش‌رونده، جبر خطی <em>فشرده‌سازی</em> را نیز توضیح می‌دهد.
+          <strong>تجزیهٔ مقدارهای منفرد</strong> (SVD) هر ماتریس را به سه بخش می‌شکند و اجازه می‌دهد تنها
+          مهم‌ترین جهت‌هایش را نگه دارید — موتور پشت سامانه‌های پیشنهاد، فشرده‌سازی تصویر و حذف نویز.
+          <strong>تحلیل مؤلفه‌های اصلی</strong> (PCA) همان SVD در لباس مبدل است، و محورهایی را می‌یابد که
+          داده در آن‌ها بیشترین تغییر را دارد. اگر برای هوش مصنوعی تنها یک شاخهٔ ریاضی بیاموزید، آن را جبر
+          خطی قرار دهید: این ارزی است که هر مدل اجاره‌اش را با آن می‌پردازد.</p>
+
+        <div class="alert tip reveal">
+          <p class="alert-t">💡 نکتهٔ کلیدی</p>
+          <p>شبکهٔ عصبی به هیچ معنای اسرارآمیزی «درک» نمی‌کند — بردارها را <em>تبدیل</em> می‌کند. هر توانایی‌ای
+            که می‌بینید، هندسه‌ای در فضایی هزاربُعدی است.</p>
+        </div>
+      </div>
+
+      <!-- ۳٫۲ -->
+      <div class="subsec" id="fa-calculus">
+        <h3 class="sub-h reveal"><span class="tick">۳٫۲</span> حسابان — گرادیان‌ها و انتشار معکوس</h3>
+        <p class="reveal">جبر خطی می‌گوید شبکه <em>چیست</em>؛ حسابان می‌گوید چگونه <em>یاد می‌گیرد</em>.
+          مشتق، که نیوتن و لایبنیتس مستقل از هم در دههٔ ۱۶۸۰ ابداعش کردند، نرخ تغییر آنی است — شیب خط
+          مماس. برای تابعی با متغیرهای بسیار، <em>مشتق‌های جزئی</em> می‌گیریم، یکی به ازای هر پارامتر، و آن‌ها
+          را در <strong>گرادیان</strong> <span class="m">∇L</span> بسته‌بندی می‌کنیم، برداری که به سوی تندترین
+          <em>صعود</em> تابع زیان <span class="m">L</span> اشاره می‌کند. آنگاه آموزش، بیان کردنش به‌طرز
+          حیرت‌آوری ساده است: بسنج مدل چقدر اشتباه است، گرادیان را محاسبه کن، و هر پارامتر را کمی
+          <em>برخلاف</em> آن هل بده.</p>
+
+        <div class="math-block reveal">
+          <span class="eq"><i>θ</i><sub>t+1</sub> = <i>θ</i><sub>t</sub> − <i>η</i> · ∇<sub><i>θ</i></sub> <i>L</i>(<i>θ</i><sub>t</sub>)</span>
+        </div>
+
+        <p class="reveal">آن قاعدهٔ به‌روزرسانی <strong>نزول گرادیان</strong> است. اسکالر
+          <span class="m">η</span> نرخ یادگیری است: بزرگ‌تر از حد، از دره فراتر می‌روی و واگرا می‌شوی؛ کوچک‌تر
+          از حد، تا ابد می‌خزی. فرود از کوهی مه‌آلود را تصور کن — کف را نمی‌بینی، پس شیب را زیر پایت حس
+          می‌کنی و رو به پایین گام برمی‌داری، بارها و بارها. چشم‌انداز زیان یک مدل واقعی میلیاردها بُعد دارد و
+          مملو از زین‌ها و فلات‌هاست، با این حال همین پیاده‌روی کور محلی، که تریلیون‌ها بار بر نمونه‌ها تکرار
+          می‌شود، به‌طور قابل‌اعتمادی راه‌حل‌هایی حیرت‌انگیز خوب می‌یابد — حقیقتی که هنوز از نظر نظری کاملاً
+          نمی‌فهمیمش.</p>
+
+        <div class="code reveal">
+          <div class="code-head"><span class="lang">python · نزول گرادیان</span><button class="copy">کپی</button></div>
+<pre><code><span class="c"># کمینه‌سازی f(x) = (x - 3)^2  که مشتقش f'(x) = 2(x - 3) است</span>
+x  = <span class="n">0.0</span>          <span class="c"># از هر جا شروع کن</span>
+lr = <span class="n">0.1</span>          <span class="c"># نرخ یادگیری  η</span>
+<span class="k">for</span> step <span class="k">in</span> <span class="f">range</span>(<span class="n">50</span>):
+    grad = <span class="n">2</span> * (x - <span class="n">3</span>)      <span class="c"># مشتق = جهت تندترین صعود</span>
+    x    = x - lr * grad     <span class="c"># گام رو به پایین</span>
+<span class="f">print</span>(<span class="f">round</span>(x, <span class="n">4</span>))          <span class="c"># 3.0  — کمینه، یافتهٔ حسابان</span></code></pre>
+        </div>
+
+        <p class="reveal">اما قلب ریاضی یادگیری عمیق، <strong>قاعدهٔ زنجیره‌ای</strong> است — مشتق ترکیب
+          تابع‌ها. شبکهٔ عمیق، ترکیبی بلند است:
+          <span class="m">L = f<sub>n</sub>(…f<sub>2</sub>(f<sub>1</sub>(x))…)</span>، و قاعدهٔ زنجیره‌ای به ما
+          اجازه می‌دهد گرادیان را نسبت به <em>هر</em> پارامتر با انتشار مشتق‌ها به عقب، لایه به لایه، محاسبه
+          کنیم، که هر لایه در ژاکوبی محلی‌اش ضرب می‌شود. این <strong>انتشار معکوس</strong> است (روملهارت،
+          هینتون و ویلیامز، ۱۹۸): نه ایده‌ای نو، بلکه قاعدهٔ زنجیره‌ای که در مقیاس سیاره‌ای اجرا می‌شود.
+          بهینه‌سازهای مدرن — SGD با تکانه، Adam، AdaGrad — پالایش‌هایی از همان قاعده‌اند، که حسابان را با آمار
+          درمی‌آمیزند تا چشم‌انداز را سریع‌تر بپیمایند. بدون قاعدهٔ زنجیره‌ای، یادگیری عمیق ناممکن بود؛ با
+          آن، یک گذر پس‌رونده تنها حدود دو برابر گذر پیش‌رونده هزینه دارد، هرچقدر شبکه عمیق باشد.</p>
+      </div>
+
+      <!-- ۳٫۳ -->
+      <div class="subsec" id="fa-prob">
+        <h3 class="sub-h reveal"><span class="tick">۳٫۳</span> احتمال و آمار — استدلال در عدم قطعیت</h3>
+        <p class="reveal">جهان پرنویز است، داده ناکامل است، و پیش‌بینی‌ها هرگز قطعی نیستند — پس هوشمندی باید
+          در عدم قطعیت استدلال کند، و ریاضیات عدم قطعیت، احتمال است، که کولموگروف در ۱۹۳۳ اصل‌بندی‌اش کرد.
+          در مرکزش <strong>قضیهٔ بیز</strong> ایستاده، قاعده‌ای یک‌خطی برای به‌روزرسانی باور در پرتو شواهد:
+          <em>پیشین</em> به <em>پسین</em> بدل می‌شود، آنگاه که در درست‌نمایی آنچه دیده‌اید ضرب شود.</p>
+
+        <div class="math-block reveal">
+          <span class="eq"><i>P</i>(<i>A</i> | <i>B</i>) =
+            <span class="frac"><span class="top"><i>P</i>(<i>B</i> | <i>A</i>) · <i>P</i>(<i>A</i>)</span><span class="bot"><i>P</i>(<i>B</i>)</span></span>
+          </span>
+        </div>
+
+        <p class="reveal">قضیهٔ بیز همچنین درمانی برای شهود بد است. آزمونی تصور کنید که برای بیماری‌ای که یک
+          نفر از ده هزار را گرفتار می‌کند، ۹۹٪ دقیق است. آزمایش شما مثبت شد — حتماً بیمارید؟ بیز می‌گوید نه:
+          نادر بودن overwhelming بیماری یعنی نتیجهٔ مثبت هنوز تنها حدود ۱٪ احتمال بیماری واقعی دارد (بیشتر
+          مثبت‌ها آلارم کاذب‌اند). همان یک فرمول، شیوهٔ اندیشیدن پزشکان، هیئت منصفه و مهندسان را دربارهٔ شواهد
+          دگرگون می‌کند. وقتی در گرافی جهت‌دار از وابستگی‌های شرطی ساختار یابد، <strong>شبکهٔ بیزی</strong>
+          می‌شود (جودیا پرل، جایزهٔ تورینگ ۲۰۱۱) — ستون فقرات سامانه‌های تشخیص پزشکی، پالایه‌های هرزنامه و
+          استنتاج علی مدرن.</p>
+
+        <p class="reveal">وقتی حالت بعدی تنها به حال بستگی دارد و نه به گذشته، <strong>زنجیرهٔ مارکوف</strong>
+          داریم — و پیج‌رنک دقیقاً زنجیرهٔ مارکوفی بر گراف وب است، که توزیع ایستایشش اهمیت صفحه را می‌دهد.
+          <strong>مونت‌کارلوی زنجیرهٔ مارکوف</strong> (متروپولیس و همکاران، ۱۹۵) به ما اجازه می‌دهد از
+          توزیع‌های احتمالی‌ای نمونه بگیریم که نمی‌توانیم صریح بنویسیمشان، و همه‌چیز را از آمار بیزی تا
+          رندرینگ نیرو می‌بخشد. بسیار پیش از ترنسفورمرها، مدل‌های زبانی خود زنجیره‌های مارکوف بر واژه‌ها
+          بودند. توزیع‌ها نیز همه‌جا هستند: <strong>قضیهٔ حد مرکزی</strong> تضمین می‌کند که مجموع نویزهای
+          مستقل به منحنی زنگوله‌ای گاوسی همگرا می‌شود، و به همین دلیل توزیع نرمال در خطای اندازه‌گیری، مالی و
+          فیزیک یکسان ظاهر می‌شود.</p>
+
+        <p class="reveal">پس یک مدل چگونه واقعاً از داده <em>یاد می‌گیرد</em>؟ با <strong>بیشینه‌سازی
+          درست‌نمایی</strong>: پارامترها را چنان تنظیم می‌کنیم که دادهٔ آموزشی دیده‌شده را تا حد ممکن محتمل
+          سازند، که برای رده‌بندی دقیقاً همان کمینه‌سازی زیان <em>آنتروپی متقاطع</em> است. لایهٔ پایانی
+          <strong>softmax</strong> نمره‌های خام (logit) را به توزیع احتمالی روی واژگان بدل می‌کند، و هر بار که
+          مدل زبانی نشانهٔ بعدی را می‌افکند، تاسی بارگذاری‌شده می‌اندازد که وزن‌هایش با حسابان بر یک توزیع
+          احتمال تنظیم شده‌اند. کلود شانون، در ۱۹۴۸، این را با <strong>نظریهٔ اطلاعات</strong> کمی ساخت:
+          <em>آنتروپی</em> <span class="m">H(X) = − Σ p(x) log₂ p(x)</span> غافلگیری را بر حسب <em>بیت</em>
+          می‌سنجد — و بیت، اتم هر رایانه، خود واحدی ریاضی است.</p>
+
+        <div class="alert important reveal">
+          <p class="alert-t">⚡ مهم</p>
+          <p>احتمال پاورقی هوش مصنوعی نیست — تابع هدف آن است. «یادگیری» چیزی نیست جز کمینه‌سازی فاصله
+            (واگرایی KL) میان توزیع مدل و واقعیت.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ۰۴ آینده -->
+    <section id="fa-future">
+      <h2 class="sec-h reveal"><span class="num">۰۴</span> آینده — رایانش کوانتومی و AGI</h2>
+
+      <p class="reveal">انقلاب بعدی، باز هم، فصلی از جبر خطی است — این بار بر اعداد مختلط. بیت کلاسیک
+        <span class="m">0</span> یا <span class="m">1</span> است؛ <strong>کیوبیت</strong> برداری یکه در
+        <span class="m">ℂ²</span> است، برهم‌نهی <span class="m">|ψ⟩ = α|0⟩ + β|1⟩</span> با
+        <span class="m">|α|² + |β|² = 1</span>. گیت‌های کوانتومی ماتریس‌های <em>یکانی</em>‌اند که این بردار را
+        می‌چرخانند، و جادو <em>تداخل</em> است: مسیرهای محاسباتی غلط یک‌دیگر را خنثی می‌کنند، مسیرهای درست
+        تقویت می‌شوند. چون <span class="m">n</span> کیوبیت در فضایی <span class="m">2<sup>n</sup></span> بُعدی
+        زندگی می‌کنند، تنها ۳۰ کیوبیت دامنه‌هایی بیش از اتم‌های جهان قابل مشاهده حمل می‌کنند. در ۱۹۹۴ پیتر
+          شور نشان داد چنین ماشینی می‌تواند اعداد صحیح را در زمان چندجمله‌ای تجزیه کند — یعنی RSA را در هم
+        می‌شکند و رمزنگاری بخش ۲٫۳ را می‌شکند. پاسخ از هم‌اکنون در راه است: <em>رمزنگاری پسا-کوانتومی</em>
+        مبتنی بر مسئله‌های شبکه (استانداردهای NIST یعنی CRYSTALS-Kyber و Dilithium) تجزیه را با مسئله‌ای جای
+        می‌گزیند که حتی رایانه‌های کوانتومی نیز به‌کارایی حلش شناخته نشده‌اند.</p>
+
+      <figure class="fig reveal">
+        <img src="https://image.qwenlm.ai/public_source/2b28ac0c-f657-4ea3-9d6b-d9e1c995ba5a/111294890-3bad-4ac8-8b23-1d847aec315a.png"
+             alt="کرهٔ بلوخ درخشان نمایانگر یک کیوبیت، با خطوط محور، بردار حالت طلایی و حلقه‌های مداری." loading="lazy" />
+        <figcaption><span class="fn">شکل ۴</span> کرهٔ بلوخ: کیوبیت به‌شکل نقطه‌ای بر کره. رایانش کوانتومی، جبر خطی بر این کره است، با تداخل به‌عنوان موتور.</figcaption>
+      </figure>
+
+      <div class="math-block reveal">
+        <span class="eq">|ψ⟩ = <i>α</i>|0⟩ + <i>β</i>|1⟩ ،&nbsp;&nbsp; |<i>α</i>|² + |<i>β</i>|² = 1</span>
+      </div>
+
+      <p class="reveal">هوش عمومی مصنوعی مرزی ریاضی از نوعی دیگر می‌نهد. مدل‌های امروز درون‌یاب‌هایی
+        خیره‌کننده‌اند، اما AGI نیازمند <em>ترکیب‌پذیری</em>، برنامه‌ریزی افق بلند و استدلال صوری واقعی خواهد
+        بود — توانایی‌هایی که به سوی سامانه‌های <strong>عصبی–نمادین</strong> اشاره می‌کنند، جایی که ادراک عصبی
+        با استنتاج منطقی درمی‌آمیزد. نظریهٔ اطلاعات مرکزی باقی خواهد ماند: <strong>واگرایی KL</strong> که می‌سنجد
+        یک توزیع چگونه دیگری را تقریب می‌زند، به‌معنای لفظی، تابع هدف آموزش است، و <strong>نظریهٔ یادگیری</strong>
+        (یادگیری PAC، کران‌های تعمیم) پرسش ناراحت‌کننده‌ای را می‌پرسد که هنوز کاملاً نمی‌توانیم پاسخ دهیم —
+        <em>چرا نزول گرادیان اصلاً تعمیم می‌یابد؟</em> برخی پژوهشگران به <strong>نظریهٔ رده‌ها</strong> برای
+        ریاضیاتی از ترکیب و ناورداایی نگاه می‌کنند، و پرسش P در برابر NP بی‌سروصدا بر همه‌چیز سایه می‌افکند:
+        آیا خود هوشمندی در زمان چندجمله‌ای محاسب‌پذیر است، یا برخی شکل‌های فهم ذاتاً دشوارند؟</p>
+
+      <blockquote class="pull reveal">
+        <p>ترنسفورمر مقاله‌ای دربارهٔ توجه بود. جانشینش مقاله‌ای دربارهٔ ناورداایی، ترکیب، یا اثبات خواهد بود — یعنی، قضیه‌ای خواهد بود.</p>
+        <cite>— شرط‌بندی‌ای معقول برای دههٔ ۲۰۰</cite>
+      </blockquote>
+    </section>
+
+    <!-- نتیجه‌گیری -->
+    <section id="fa-conclusion">
+      <h2 class="sec-h reveal"><span class="num">∎</span> نتیجه‌گیری — کد مبدأ را بخوانید</h2>
+
+      <p class="reveal">با ادعایی آغاز کردیم و اکنون می‌توانیم بی‌پرده بازش بیان کنیم: ریاضیات کد مبدأ جهان
+        هستی است. علوم کامپیوتر، آن کد مبدأ <em>کامپایل‌شده و اجراشده</em> است؛ هوش مصنوعی، آن کد مبدأ
+        <em>که یاد می‌گیرد خود را بازنویسی کند</em>. منطق گسسته گیت‌ها را می‌سازد، نظریهٔ گراف بسته‌ها را
+        مسیریابی می‌کند، نظریهٔ اعداد رازها را پاس می‌دارد، نظریهٔ پیچیدگی خط میان ممکن و ناممکن را می‌کشد،
+        جبر خطی مدل‌ها را می‌سازد، حسابان آموزششان می‌دهد، و احتمال به آن‌ها اجازه می‌دهد در جهانی نامعین کنش
+        کنند. هیچ لایه‌ای از پشته نیست که با بررسی، قضیه‌ای نباشد.</p>
+
+      <p class="reveal">برای توسعه‌دهنده‌ای که این را بر صفحهٔ گیت‌هاب می‌خواند: برای بهره‌مندی از ریاضیات
+        نیازی به دکترا ندارید — به جعبه‌ابزاری کوچک و خوب‌گزیده و عادت پرسیدنِ <em>«این واقعاً چه محاسبه
+        می‌کند؟»</em> نیاز دارید. با جبر خطی آغاز کنید (شهود بصری 3Blue1Brown، آنگاه دقت کتاب
+        <em>Mathematics for Machine Learning</em>)، احتمال و یک ترم حسابان بیفزایید، و همه را در ریاضیات گسسته
+        ریشه‌دار کنید (درس 6.042J ام‌آی‌تی آزادانه آنلاین است). برای دانش‌آموز: اثبات‌ها آیین تحقیر نیستند؛
+        تنها ورزشگاه‌اند برای ماهیچهٔ قطعیت. یک اثبات تمیز بنویسید و دربارهٔ هر باگی که می‌بینید جور دیگری
+        خواهید اندیشید.</p>
+
+      <div class="alert tip reveal">
+        <p class="alert-t">💡 نقشه راه ۹۰ روزه</p>
+        <p>هفته‌های ۱–۴: جبر خطی (بردارها، ماتریس‌ها، ویژه‌بردارها، SVD). هفته‌های ۵–۸: احتمال و حسابان
+          (بیز، توزیع‌ها، مشتق‌ها، قاعدهٔ زنجیره‌ای). هفته‌های ۹–۱۲: ریاضیات گسسته و پیچیدگی (منطق، گراف،
+          O بزرگ، روزی یک یا دو اثبات). هر هفته یک پروژهٔ کوچک بسازید — پیشنهادگر، رده‌بند، مسیریاب — و تماشا
+          کنید که نمادها ابزار می‌شوند.</p>
+      </div>
+
+      <p class="reveal">خطی هست، که اغلب به ادسخر دیکسترا نسبت می‌دهند، و استدلال را بهتر از هر پاراگراف من
+        می‌بندد: <em>«علوم کامپیوتر بیش از آنکه دربارهٔ رایانه باشد، دربارهٔ رایانه نیست، همان‌طور که نجوم
+          دربارهٔ تلسکوپ نیست.»</em> تلسکوپ ابزار است؛ ستارگان، ریاضیات‌اند. پس ابزار را برگیرید نه برای گذر
+        از آزمونی، بلکه برای خواندن کد مبدأ جهان هستی — زیرا هر آنچه دربارهٔ فناوری دوست دارید، در پایان،
+        قضیه‌ای است که لباس مبدل پوشیده.</p>
+    </section>
+
+    <!-- منابع -->
+    <section id="fa-refs">
+      <h2 class="sec-h reveal"><span class="num">⌘</span> منابع و مطالعهٔ بیشتر</h2>
+      <ol class="refs reveal">
+        <li>
+          <span class="rt">Concrete Mathematics</span>
+          <span class="rn">R. L. Graham, D. E. Knuth &amp; O. Patashnik — پل میان پیوسته و گسسته، نگاشته‌شده با ظرافت. بهترین کتاب واحد برای ساخت ماهیچهٔ ریاضی برای علوم کامپیوتر.</span>
+          <span class="rm">ویرایش ۲ · Addison-Wesley, 1994 · ISBN 978-0201558029</span>
+        </li>
+        <li>
+          <span class="rt">Introduction to Algorithms (CLRS)</span>
+          <span class="rn">T. H. Cormen, C. E. Leiserson, R. L. Rivest &amp; C. Stein — دانشنامهٔ الگوریتم‌ها و پیچیدگی؛ اگر ساختار داده‌ای وجود داشته باشد، با اثباتش اینجاست.</span>
+          <span class="rm">ویرایش ۴ · MIT Press, 2022</span>
+        </li>
+        <li>
+          <span class="rt">Deep Learning</span>
+          <span class="rn">I. Goodfellow, Y. Bengio &amp; A. Courville — کتاب درسی مرجع دربارهٔ ریاضیات شبکه‌های عصبی، از جبر خطی تا مدل‌های مولد.</span>
+          <span class="rm">MIT Press, 2016 · آزاد در <a href="https://www.deeplearningbook.org" target="_blank" rel="noopener">deeplearningbook.org</a></span>
+        </li>
+        <li>
+          <span class="rt">Mathematics for Machine Learning</span>
+          <span class="rn">M. P. Deisenroth, A. A. Faisal &amp; C. S. Ong — استخراجی فشرده و مدرن از دقیقاً همان جبر خطی، حسابان و احتمالی که یادگیری ماشین نیاز دارد.</span>
+          <span class="rm">Cambridge University Press, 2020 · آزاد در <a href="https://mml-book.github.io" target="_blank" rel="noopener">mml-book.github.io</a></span>
+        </li>
+        <li>
+          <span class="rt">Mathematics for Computer Science (MIT 6.042J)</span>
+          <span class="rn">F. T. Leighton &amp; A. R. Meyer — درسی آزاد و دقیق دربارهٔ اثبات‌ها، نظریهٔ اعداد، نظریهٔ گراف و احتمال، ستون فقرات گسستهٔ این مقاله.</span>
+          <span class="rm">MIT OpenCourseWare · <a href="https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/" target="_blank" rel="noopener">ocw.mit.edu</a></span>
+        </li>
+      </ol>
+
+      <footer class="art-foot">
+        <div class="tags">
+          <span>#ریاضیات</span><span>#علوم_کامپیوتر</span><span>#هوش_مصنوعی</span>
+          <span>#جبر_خطی</span><span>#رمزنگاری</span><span>#کوانتوم</span>
+        </div>
+        <div>پایان مقاله · FA</div>
+      </footer>
+    </section>
+
+  </article>
+  </main>
+</div>
+
+<!-- ============================ SITE FOOTER ============================ -->
+<footer class="site-foot">
+  <div class="in">
+    <span class="t-en">Crafted with ∑ · Mathematics is the foundation of everything · GitHub Docs · 2026</span>
+    <span class="t-fa">ساخته‌شده با ∑ · ریاضیات زیربنای همه‌چیز است · مستندات گیت‌هاب · ۲۰۲۶</span>
+    <span>EN ⇄ FA · ☀ / 🌙</span>
+  </div>
+</footer>
+
+<button id="toTop" aria-label="Back to top" title="Back to top">↑</button>
+<canvas id="bgfx" aria-hidden="true"></canvas>
+
+<script>
+(function(){
+  "use strict";
+  const $  = (s,r=document)=>r.querySelector(s);
+  const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+  const root = document.documentElement;
+  const body = document.body;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- THEME ---------- */
+  const themeBtn = $('#theme');
+  const saved = localStorage.getItem('math-theme');
+  if(saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+  else root.dataset.theme = 'dark';
+  function paintTheme(){ themeBtn.textContent = root.dataset.theme === 'dark' ? '☀️' : '🌙'; }
+  paintTheme();
+  themeBtn.addEventListener('click', ()=>{
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('math-theme', root.dataset.theme);
+    paintTheme();
+  });
+
+  /* ---------- LANGUAGE ---------- */
+  const btnEn = $('#btn-en'), btnFa = $('#btn-fa');
+  const tocEn = $('#toc-en'), tocFa = $('#toc-fa');
+  let lang = 'en';
+  function setLang(l){
+    lang = l;
+    body.classList.toggle('lang-fa', l==='fa');
+    body.classList.toggle('lang-en', l==='en');
+    root.dir  = l==='fa' ? 'rtl' : 'ltr';
+    root.lang = l;
+    $('#content-en').classList.toggle('active', l==='en');
+    $('#content-fa').classList.toggle('active', l==='fa');
+    tocEn.classList.toggle('active', l==='en');
+    tocFa.classList.toggle('active', l==='fa');
+    btnEn.classList.toggle('on', l==='en'); btnEn.setAttribute('aria-pressed', l==='en');
+    btnFa.classList.toggle('on', l==='fa'); btnFa.setAttribute('aria-pressed', l==='fa');
+    initSpy(l);
+    observeReveals();
+    window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+  }
+  btnEn.addEventListener('click', ()=>setLang('en'));
+  btnFa.addEventListener('click', ()=>setLang('fa'));
+
+  /* ---------- SCROLLSPY ---------- */
+  let spy = null;
+  function initSpy(l){
+    if(spy) spy.disconnect();
+    const links = $$('#toc-'+l+' a');
+    const map = {};
+    links.forEach(a=>{ const id = a.getAttribute('href').slice(1); if(id) map[id]=a; });
+    const targets = Object.keys(map).map(id=>document.getElementById(id)).filter(Boolean);
+    spy = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          links.forEach(x=>x.classList.remove('current'));
+          const link = map[e.target.id];
+          if(link){ link.classList.add('current'); link.scrollIntoView?.({block:'nearest'}); }
+        }
+      });
+    }, { rootMargin: '-18% 0px -72% 0px', threshold: 0 });
+    targets.forEach(t=>spy.observe(t));
+  }
+
+  /* ---------- SCROLL REVEAL ---------- */
+  let revObs = null;
+  function observeReveals(){
+    if(revObs) revObs.disconnect();
+    if(reduce){ $$('.reveal').forEach(el=>el.classList.add('in')); return; }
+    revObs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    $$('.lang-content.active .reveal').forEach(el=>{
+      if(!el.classList.contains('in')) revObs.observe(el);
+    });
+  }
+
+  /* ---------- PROGRESS + BACK TO TOP ---------- */
+  const bar = $('#progress'), toTop = $('#toTop');
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(()=>{
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      const p = max > 0 ? (h.scrollTop || body.scrollTop) / max : 0;
+      bar.style.width = (p*100).toFixed(2) + '%';
+      toTop.classList.toggle('show', (h.scrollTop || body.scrollTop) > 520);
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  toTop.addEventListener('click', ()=>window.scrollTo({top:0, behavior: reduce ? 'auto':'smooth'}));
+
+  /* ---------- READING TIME ---------- */
+  function readingTime(text, wpm){
+    const words = (text.trim().match(/\S+/g) || []).length;
+    return Math.max(1, Math.round(words / wpm));
+  }
+  function setReadTimes(){
+    const en = $('#content-en'), fa = $('#content-fa');
+    const rtEn = readingTime(en.textContent, 220);
+    const rtFa = readingTime(fa.textContent, 180);
+    const enEl = $('#rt-en'), faEl = $('#rt-fa');
+    if(enEl) enEl.textContent = rtEn;
+    if(faEl) faEl.textContent = toFaNum(rtFa);
+  }
+  function toFaNum(n){
+    const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(n).replace(/\d/g, d=>fa[+d]);
+  }
+
+  /* ---------- COPY BUTTONS ---------- */
+  $$('.copy').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const code = btn.closest('.code').querySelector('pre');
+      const txt = code ? code.innerText : '';
+      try{ await navigator.clipboard.writeText(txt); }
+      catch(_){ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+      const fa = body.classList.contains('lang-fa');
+      const orig = btn.textContent;
+      btn.textContent = fa ? 'کپی شد ✓' : 'Copied ✓';
+      btn.classList.add('done');
+      setTimeout(()=>{ btn.textContent = orig; btn.classList.remove('done'); }, 1500);
+    });
+  });
+
+  /* ---------- EQUATION MARQUEE ---------- */
+  const eqs = [
+    'e<sup>iπ</sup> + 1 = 0', 'a² + b² = c²',
+    '<i>P</i>(<i>A</i>|<i>B</i>) = <i>P</i>(<i>B</i>|<i>A</i>)<i>P</i>(<i>A</i>) / <i>P</i>(<i>B</i>)',
+    '∇·<b>E</b> = ρ / ε₀', '<i>H</i> = − Σ <i>p</i> log₂ <i>p</i>',
+    '<i>F</i> = <i>ma</i>', '<i>E</i> = <i>mc</i>²',
+    '<i>x</i><sub>t+1</sub> = <i>x</i><sub>t</sub> − η∇<i>L</i>',
+    '<i>V</i> − <i>E</i> + <i>F</i> = 2', 'ζ(<i>s</i>) = Σ 1/<i>n<sup>s</sup></i>',
+    '(<i>a</i>+<i>b</i>)<sup>n</sup> = Σ C(<i>n,k</i>)<i>a<sup>k</sup>b</i><sup>n−k</sup>',
+    '|ψ⟩ = α|0⟩ + β|1⟩', '∮ <b>B</b>·d<b>l</b> = μ₀<i>I</i>'
+  ];
+  function buildTrack(){
+    const track = $('#eqtrack');
+    const one = eqs.map(e=>'<span class="eq">'+e+'</span><span class="dot">◆</span>').join('');
+    track.innerHTML = one + one; // duplicate for seamless loop
+  }
+
+  /* ---------- AMBIENT GLYPHS CANVAS ---------- */
+  const canvas = $('#bgfx'), ctx = canvas.getContext('2d');
+  const glyphs = ['∑','∫','π','λ','∇','∂','√','∞','≈','≠','∈','∀','θ','Δ','⊕','','ℂ','ζ','φ','Ω'];
+  let parts = [], W=0, H=0, dpr=1, raf=null;
+  function palettes(){
+    return root.dataset.theme === 'dark'
+      ? ['227,179,65','88,166,255','196,209,214']
+      : ['154,103,0','9,105,218','87,96,106'];
+  }
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = canvas.width  = Math.floor(innerWidth  * dpr);
+    H = canvas.height = Math.floor(innerHeight * dpr);
+    canvas.style.width = innerWidth+'px'; canvas.style.height = innerHeight+'px';
+    const count = Math.round(Math.min(46, Math.max(18, innerWidth/32)));
+    parts = Array.from({length:count}, ()=>spawn(true));
+  }
+  function spawn(init){
+    const cols = palettes();
+    return {
+      x: Math.random()*W,
+      y: init ? Math.random()*H : H + 30*dpr,
+      vx: (Math.random()-0.5)*0.18*dpr,
+      vy: -(0.12 + Math.random()*0.32)*dpr,
+      size: (12 + Math.random()*22)*dpr,
+      rot: (Math.random()-0.5)*0.5,
+      vr: (Math.random()-0.5)*0.002,
+      a: 0.05 + Math.random()*0.10,
+      col: cols[(Math.random()*cols.length)|0],
+      g: glyphs[(Math.random()*glyphs.length)|0]
+    };
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const cols = palettes();
+    for(const p of parts){
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      if(p.y < -40*dpr || p.x < -40*dpr || p.x > W+40*dpr){ Object.assign(p, spawn(false)); }
+      ctx.save();
+      ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.font = p.size + 'px "STIX Two Text", serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = 'rgba('+p.col+','+p.a+')';
+      ctx.fillText(p.g, 0, 0);
+      ctx.restore();
+    }
+    raf = requestAnimationFrame(draw);
+  }
+  function startCanvas(){
+    if(reduce){ ctx.clearRect(0,0,W,H); return; }
+    resize();
+    if(!raf) draw();
+  }
+  let rt;
+  addEventListener('resize', ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ resize(); }, 200); });
+  // refresh palette when theme changes (canvas reads it each frame, so nothing else needed)
+
+  /* ---------- INIT ---------- */
+  buildTrack();
+  setReadTimes();
+  setLang('en');
+  onScroll();
+  startCanvas();
+})();
+</script>
+</body>
+</html>
