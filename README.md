@@ -100,8 +100,8 @@ MIT — Free to use, fork, and improve.
 
 ## ✍️ درباره | About
 
-نوشته شده توسط علی قربانی — July 2026
-Authored by Ali Ghorbani — July 2026
+نوشته شده توسط ابوالفضل قربانی — July 2026
+Authored by Abolfazl Ghorbani — July 2026
 
 قسمتی از پروژه‌های شخصی در زمینه‌ی علوم پایه و محاسبات.
 Part of personal projects in fundamental sciences and computation.
