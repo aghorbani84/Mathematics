@@ -8,13 +8,6 @@ A long-form research article on the nature of mathematics — from philosophy to
 
 ---
 
-## 🌐 زبان‌ها | Languages
-
-- [فارسی](index.html?lang=fa) | [Persian](index.html?lang=fa)
-- [English](index.html?lang=en)
-
----
-
 ## 📋 ساختار | Structure
 
 مقاله شامل ۱۳ بخش است:
