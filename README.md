@@ -1,102 +1,78 @@
-# ریاضیات — Mathematics
+<h1 align="center">Why Mathematics Is the Foundation of Everything</h1>
 
-> **ریاضیات سیستم‌عامل واقعیت روزمره است.**
-> Mathematics is the operating system of everyday reality.
+<p align="center">
+  <em>A long-form bilingual (English / فارسی) essay on how mathematics underpins computer science and artificial intelligence.</em>
+</p>
 
-یک مقاله‌ی تحقیقاتی بلند درباره‌ی چیستی ریاضیات — از فلسفه تا کد اجرایی.
-A long-form research article on the nature of mathematics — from philosophy to executable code.
+<p align="center">
+  <a href="https://aghorbani84.github.io/Mathematics/"><img src="https://img.shields.io/badge/Read_online-GitHub_Pages-222222?logo=githubpages&logoColor=white" alt="Read online on GitHub Pages" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT" /></a>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white" alt="HTML5" />
+  <img src="https://img.shields.io/badge/Languages-EN%20%2F%20FA-0D9488" alt="English / Persian" />
+</p>
 
----
-
-## 📋 ساختار | Structure
-
-مقاله شامل ۱۳ بخش است:
-The article includes 13 sections:
-
-| # | بخش / Section | موضوع / Topic |
-|---|---------------------|-----------------------------------|
-| ۰ | Philosophy of Mathematics | افلاطون، فرمالیست، شهودگرا / Plato, Formalism, Intuitionism |
-| ۱ | Foundations of Computing | منطق، بیت، تورینگ / Logic, Bits, Turing |
-| ۲ | Discrete Mathematics | گراف، ترکیبیات، نظریه اعداد / Graphs, Combinatorics, Number Theory |
-| ۳ | Graph Theory & Networks | شبکه‌های اجتماعی، مسیریابی / Social Networks, Routing |
-| ۴ | Cryptography & Security | رمزنگاری، پروتکل‌ها / Cryptography, Protocols |
-| ۵ | Complexity Theory | P در مقابل NP / P vs. NP |
-| ۶ | Formal Methods | اثبات، مدل‌چکینگ / Proofs, Model Checking |
-| ۷ | Information Theory | آنتروپی، کدگذاری / Entropy, Encoding |
-| ۸ | Linear Algebra & Calculus | مبانی یادگیری ماشین / Foundations of Machine Learning |
-| ۹ | Probability & Statistics | بیز، زنجیره مارکوف / Bayes, Markov Chains |
-| ۱۰ | Optimization | گرادیان، بهینه‌سازی محدب / Gradient, Convex Optimization |
-| ۱۱ | Quantum Computing | بیت کوانتومی، گیت‌ها / Quantum Bits, Gates |
-| ۱۲ | Frontiers (AGI) | مرزهای هوش مصنوعی / Frontiers of Artificial General Intelligence |
-
-هر بخش شامل:
-Each section includes:
-
--   **توضیح مفهومی** با رفرنس علمی
-    **Conceptual explanation** with scientific references
--   **اثبات یا طرح اثبات** برای ادعاهای کلیدی
-    **Proof or proof outline** for key assertions
--   **کد اجرایی** (Python / JavaScript) که می‌تونی خودت اجرا کنی
-    **Executable code** (Python / JavaScript) for hands-on experience
--   **تصاویر و دیاگرام**
-    **Images and diagrams**
+<p align="center">
+  <a href="https://aghorbani84.github.io/Mathematics/"><strong>📖 Read the article →</strong></a>
+</p>
 
 ---
 
-## 🚀 اجرای کدها | Running the Code
+## Overview
 
-کدهای پایتون رو می‌تونی مستقیم اجرا کنی:
-You can run the Python code directly:
+This repository holds a single self-contained web page: a research-style article that walks from the philosophy of mathematics to the math behind modern software and AI, with short Python examples along the way. The full text is available in both English and Persian, with a language switch on the page.
+
+## Contents
+
+| # | Section |
+|---|---|
+| 01 | The Philosophy of Mathematics |
+| 02 | Mathematics in Computer Science — discrete math & logic, graph theory & networks, cryptography & cybersecurity, algorithmic complexity & Big-O |
+| 03 | Mathematics in Artificial Intelligence — linear algebra, calculus & backpropagation, probability & statistics |
+| 04 | The Future — Quantum Computing & AGI |
+| ∎ | Conclusion — Read the Source Code |
+| ⌘ | References & Further Reading |
+
+Code examples in the article (Python): a toy RSA implementation, complexity comparison, matrix multiplication, and gradient descent.
+
+## Features
+
+- **Bilingual**: full English and Persian versions with RTL support and a language toggle
+- **Dark / light theme** toggle
+- **Table of contents** sidebar and reading-progress indicator
+- **Copy buttons** on code blocks
+- **Scroll-reveal animations** that respect `prefers-reduced-motion`
+- **Single file, no build step** — just `index.html`
+
+## Tech Stack
+
+- HTML5, CSS, vanilla JavaScript (all inline in `index.html`)
+- Fonts via jsDelivr: Inter, Vazirmatn, JetBrains Mono, STIX Two Text
+- Hosted on GitHub Pages
+
+## Getting Started
+
+Read it online at **https://aghorbani84.github.io/Mathematics/**, or run it locally:
 
 ```bash
-python fibonacci_golden_ratio.py
-python riemann_zeta_visualization.py
+git clone https://github.com/aghorbani84/Mathematics.git
+cd Mathematics
+# open index.html in your browser, or serve it:
+python3 -m http.server 8000   # then visit http://localhost:8000
 ```
 
-کدهای JavaScript هم داخل مرورگر کار می‌کنن — فایل `.html` رو باز کن و کنسول رو نگاه کن.
-JavaScript codes also work in the browser — open the `.html` file and check the console.
+## Project Structure
 
----
+```
+.
+├── index.html   # The complete article (markup, styles, scripts)
+├── LICENSE      # MIT
+└── README.md
+```
 
-## 🧠 ایده‌ی اصلی | Core Idea
+## License
 
-> The Unreasonable Effectiveness of Mathematics in the Natural Sciences
-> — Eugene Wigner, 1960
+Released under the [MIT License](LICENSE).
 
-سه سوالی که مقاله بهشون جواب می‌ده:
-The article addresses three core questions:
+## Author
 
-1.  چرا ریاضیات اینقدر در توصیف جهان مؤثره؟
-    Why is mathematics so effective in describing the universe?
-2.  رابطه‌ی منطق، محاسبه و هوش چیه؟
-    What is the relationship between logic, computation, and intelligence?
-3.  آیا AGI بدون پیشرفت در ریاضیات محض ممکنه؟
-    Is AGI possible without advances in pure mathematics?
-
----
-
-## 🛠️ تکنولوژی‌ها | Technologies
-
--   **HTML/CSS/JS** — صفحه‌ی اصلی / Main page
--   **MathJax / KaTeX** — فرمول‌های ریاضی / Mathematical formulas
--   **Python 3.x** — کدهای اجرایی / Executable code
--   **D3.js / Canvas** — تصاویر تعاملی (در حال توسعه) / Interactive visualizations (in development)
-
----
-
-## 📜 مجوز | License
-
-MIT — آزاد برای استفاده، فورک، بهبود.
-MIT — Free to use, fork, and improve.
-
----
-
-## ✍️ درباره | About
-
-نوشته شده توسط ابوالفضل قربانی — July 2026
-Authored by Abolfazl Ghorbani — July 2026
-
-قسمتی از پروژه‌های شخصی در زمینه‌ی علوم پایه و محاسبات.
-Part of personal projects in fundamental sciences and computation.
-
-[🔗 مشاهده مقاله](https://aghorbani84.github.io/Mathematics/) | [🔗 View Article](https://aghorbani84.github.io/Mathematics/)
+Written by **Abolfazl Ghorbani** — [@aghorbani84](https://github.com/aghorbani84)
